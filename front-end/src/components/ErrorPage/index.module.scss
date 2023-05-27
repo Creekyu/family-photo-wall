@@ -1,0 +1,45 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: #FFF;
+
+  > div {
+    width: 300px;
+    height: 400px;
+    margin: 250px auto;
+    animation: anime .5s forwards;
+    overflow: hidden;
+
+    .photo {
+      width: 300px;
+      height: 200px;
+      background: {
+        size: cover;
+        repeat: no-repeat;
+      }
+    }
+
+    .tips {
+      text-align: center;
+      line-height: 40px;
+      padding-top: 10px;
+      font-size: 30px;
+    }
+
+    .btn {
+      width: 80px;
+      padding: 20px 0;
+      margin: 0 auto;
+    }
+  }
+}
+
+@keyframes anime {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: 400px;
+  }
+}
