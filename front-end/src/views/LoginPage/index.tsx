@@ -16,14 +16,16 @@ import { userApi } from '@/api/users';
 
 // interface
 import { loginForm } from '@/interface/userApi';
-import { Simulate } from 'react-dom/test-utils';
-import reset = Simulate.reset;
+
+// redux
+import { setIsLogin } from '@/redux/slice/backstage';
+import { useAppDispatch } from '@/redux';
 
 const LoginForm = () => {
   const message = useGlobalMessage();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useAppDispatch();
   // Handle Submit
   const onFinish = (values: loginForm) => {
     setLoading(true);
@@ -42,14 +44,15 @@ const LoginForm = () => {
         delete user['_id'];
         // 设置cookie持续时间90天
         const expires = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
-        cookies.set('user', user, { path: '/manage', expires });
-        cookies.set('token', data.token, { path: '/manage', expires });
+        cookies.set('user', user, { expires });
+        cookies.set('token', data.token, { expires });
+        dispatch(setIsLogin(true));
         // 获取OSSPolicy
         userApi.getOSSPolicy(
           '',
           (data) => {
+            console.log(data.expires, Date.now());
             cookies.set('OSSPolicy', data, {
-              path: '/manage',
               expires: new Date(data.expires),
             });
           },

@@ -19,8 +19,13 @@ import BackStageMenu from '@/components/BackStage/Menu';
 import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
+// redux
+import { setIsLogin } from '@/redux/slice/backstage';
+import { useAppDispatch } from '@/redux';
+
 const BackStage: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useAppDispatch();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -36,6 +41,7 @@ const BackStage: React.FC = () => {
         const cookies = new Cookies();
         cookies.remove('user');
         cookies.remove('token');
+        dispatch(setIsLogin(false));
         navigate('/manage');
       },
     });

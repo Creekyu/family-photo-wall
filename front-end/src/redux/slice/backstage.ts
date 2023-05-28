@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   selectedKey: 'add',
+  isLogin: false,
 };
 
 const backStageSlice = createSlice({
@@ -11,8 +12,11 @@ const backStageSlice = createSlice({
     setSelectedKey: (state, action) => {
       state.selectedKey = action.payload;
     },
+    setIsLogin: (state, action) => {
+      state.isLogin = action.payload;
+    },
   },
 });
 
-export const { setSelectedKey } = backStageSlice.actions;
+export const { setSelectedKey, setIsLogin } = backStageSlice.actions;
 export default backStageSlice.reducer;
