@@ -15,9 +15,9 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
   const path = location.pathname;
   return (
     <>
-      {path === '/manage' ? (
+      {path.match(/(\/manage)/) ? (
         token ? (
-          <BackStage></BackStage>
+          children
         ) : (
           <LoginPage></LoginPage>
         )

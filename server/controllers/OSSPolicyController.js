@@ -58,7 +58,7 @@ exports.getPolicy = async (req, res) => {
   res.json(params);
 };
 
-//接收回掉
+//接收回调
 exports.getResult = (req, res) => {
   //公钥地址
   const pubKeyAddr = Buffer.from(

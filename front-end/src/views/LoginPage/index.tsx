@@ -16,6 +16,8 @@ import { userApi } from '@/api/users';
 
 // interface
 import { loginForm } from '@/interface/userApi';
+import { Simulate } from 'react-dom/test-utils';
+import reset = Simulate.reset;
 
 const LoginForm = () => {
   const message = useGlobalMessage();
@@ -40,8 +42,25 @@ const LoginForm = () => {
         delete user['_id'];
         // 设置cookie持续时间90天
         const expires = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
-        cookies.set('user', user, { path: '/', expires });
-        cookies.set('token', data.token, { path: '/', expires });
+        cookies.set('user', user, { path: '/manage', expires });
+        cookies.set('token', data.token, { path: '/manage', expires });
+        // 获取OSSPolicy
+        userApi.getOSSPolicy(
+          '',
+          (data) => {
+            cookies.set('OSSPolicy', data, {
+              path: '/manage',
+              expires: new Date(data.expires),
+            });
+          },
+          (content) => {
+            message.error(content);
+          },
+          () => {
+            setLoading(false);
+          }
+        );
+        // 跳转
         navigate('/manage/add');
       },
       (content) => {

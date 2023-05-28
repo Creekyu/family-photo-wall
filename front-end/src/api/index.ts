@@ -11,7 +11,7 @@ export const catchAsync =
 
     fn(values)
       .then((response: any) => {
-        if (success) success(response);
+        if (success) success(response.data);
         return new Promise(() => {
           // pass
         });
