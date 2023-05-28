@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Cookies from 'universal-cookie';
 import isEmail from 'validator/lib/isEmail';
@@ -20,12 +20,14 @@ import { loginForm } from '@/interface/userApi';
 const LoginForm = () => {
   const message = useGlobalMessage();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // Handle Submit
   const onFinish = (values: loginForm) => {
+    setLoading(true);
     if (!isEmail(values.email)) {
       message.error('请输入正确的邮箱！');
-      return;
+      return setLoading(false);
     }
     // api
     userApi.login(
@@ -44,6 +46,9 @@ const LoginForm = () => {
       },
       (content) => {
         message.error(content);
+      },
+      () => {
+        setLoading(false);
       }
     );
   };
@@ -75,7 +80,12 @@ const LoginForm = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" className={style.btn}>
+            <Button
+              loading={loading}
+              type="primary"
+              htmlType="submit"
+              className={style.btn}
+            >
               登录
             </Button>
           </Form.Item>

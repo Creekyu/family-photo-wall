@@ -4,7 +4,8 @@ export const catchAsync =
   (
     values?: unknown, // values就是fn的参数
     success?: (data?: any) => void,
-    error?: (content: string) => void
+    error?: (content: string) => void,
+    effect?: () => void
   ) => {
     // success error分别指定success和error的回调
 
@@ -20,5 +21,8 @@ export const catchAsync =
           // 这里处理一些后端没有传递错误信息的状态码的消息输出
           error(err.data.message);
         }
+      })
+      .final(() => {
+        if (effect) effect();
       });
   };
