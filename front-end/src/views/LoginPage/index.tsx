@@ -1,13 +1,53 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
+import Cookies from 'universal-cookie';
+import isEmail from 'validator/lib/isEmail';
 
 // antd
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 
 // css
 import style from './index.module.scss';
+import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+
+// api
+import { userApi } from '@/api/users';
+
+// interface
+import { loginForm } from '@/interface/userApi';
 
 const LoginForm = () => {
+  const message = useGlobalMessage();
+  const navigate = useNavigate();
+
+  // Handle Submit
+  const onFinish = (values: loginForm) => {
+    if (!isEmail(values.email)) {
+      message.error('请输入正确的邮箱！');
+      return;
+    }
+    // api
+    userApi.login(
+      values,
+      async (data) => {
+        await message.loadingAsync('登录中...', '登录成功');
+        const cookies = new Cookies();
+        const user = data.data.user;
+        // 设置token
+        delete user['_id'];
+        // 设置cookie持续时间90天
+        const expires = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+        cookies.set('user', user, { path: '/', expires });
+        cookies.set('token', data.token, { path: '/', expires });
+        navigate('/manage');
+      },
+      (content) => {
+        message.error(content);
+      }
+    );
+  };
+
   return (
     <div className={style.wrapper}>
       <div className={style.formWrapper}>
@@ -16,16 +56,17 @@ const LoginForm = () => {
           name="normal_login"
           initialValues={{ remember: true }}
           className={style.form}
+          onFinish={onFinish}
         >
           <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Please input your Username!' }]}
+            name="email"
+            rules={[{ required: true, message: '请输入邮箱！' }]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Username" />
+            <Input prefix={<MailOutlined />} placeholder="Email" />
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
+            rules={[{ required: true, message: '请输入密码!' }]}
           >
             <Input
               prefix={<LockOutlined />}
