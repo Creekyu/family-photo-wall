@@ -17,6 +17,16 @@ const router: Routes[] = [
   {
     path: '/manage',
     element: lazy(() => import('@/views/BackStage')),
+    children: [
+      {
+        path: 'add',
+        element: lazy(() => import('@/views/BackStage/AddPhoto')),
+      },
+      {
+        path: 'del',
+        element: lazy(() => import('@/views/BackStage/DeletePhoto')),
+      },
+    ],
   },
   {
     path: '/test',

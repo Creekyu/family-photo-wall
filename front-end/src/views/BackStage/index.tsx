@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Outlet } from 'react-router';
 import Cookies from 'universal-cookie';
 
 // antd
@@ -69,7 +70,7 @@ const BackStage: React.FC = () => {
             background: colorBgContainer,
           }}
         >
-          Content
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
