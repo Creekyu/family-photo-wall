@@ -23,8 +23,8 @@ const router: Routes[] = [
         element: lazy(() => import('@/views/BackStage/AddPhoto')),
       },
       {
-        path: 'del',
-        element: lazy(() => import('@/views/BackStage/DeletePhoto')),
+        path: 'edit',
+        element: lazy(() => import('@/views/BackStage/EditPhoto')),
       },
     ],
   },

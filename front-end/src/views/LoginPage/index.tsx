@@ -42,7 +42,7 @@ const LoginForm = () => {
         const expires = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
         cookies.set('user', user, { path: '/', expires });
         cookies.set('token', data.token, { path: '/', expires });
-        navigate('/manage');
+        navigate('/manage/add');
       },
       (content) => {
         message.error(content);
