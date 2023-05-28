@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const DeletePhoto = () => {
+// redux
+import { setSelectedKey } from '@/redux/slice/backstage';
+import { useAppDispatch } from '@/redux';
+
+const EditPhoto = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setSelectedKey('edit'));
+  }, []);
   return <div>DelPhoto</div>;
 };
 
-export default DeletePhoto;
+export default EditPhoto;

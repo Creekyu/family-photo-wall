@@ -17,6 +17,7 @@ const hpp = require('hpp');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const OSSRoutes = require('./routes/OSSRoutes');
+const helmet = require('helmet');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(
 app.options('*', cors());
 
 // Set security HTTP headers
+app.use(helmet());
 // app.use(
 //   helmet({
 //     // 解决解决NotSameOriginAfterDefaultedToSameOriginByCoep问题

@@ -45,7 +45,6 @@ const BackStageMenu = () => {
       mode="inline"
       items={items}
       onClick={(e) => {
-        dispatch(setSelectedKey(e.key));
         navigate(`/manage/${e.key}`);
       }}
     />

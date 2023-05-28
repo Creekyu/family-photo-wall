@@ -13,6 +13,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // api
 import { userApi } from '@/api/users';
+// import { OSSApi } from '@/api/OSS';
 
 // interface
 import { loginForm } from '@/interface/userApi';
@@ -47,22 +48,22 @@ const LoginForm = () => {
         cookies.set('user', user, { expires });
         cookies.set('token', data.token, { expires });
         dispatch(setIsLogin(true));
-        // 获取OSSPolicy
-        userApi.getOSSPolicy(
-          '',
-          (data) => {
-            console.log(data.expires, Date.now());
-            cookies.set('OSSPolicy', data, {
-              expires: new Date(data.expires),
-            });
-          },
-          (content) => {
-            message.error(content);
-          },
-          () => {
-            setLoading(false);
-          }
-        );
+        // // 获取OSSPolicy
+        // OSSApi.getOSSPolicy(
+        //   '',
+        //   (data) => {
+        //     console.log(data.expires, Date.now());
+        //     cookies.set('OSSPolicy', data, {
+        //       expires: new Date(data.expires),
+        //     });
+        //   },
+        //   (content) => {
+        //     message.error(content);
+        //   },
+        //   () => {
+        //     setLoading(false);
+        //   }
+        // );
         // 跳转
         navigate('/manage/add');
       },

@@ -19,6 +19,10 @@ const router: Routes[] = [
     element: lazy(() => import('@/views/BackStage')),
     children: [
       {
+        path: '',
+        element: lazy(() => import('@/views/BackStage/AddPhoto')),
+      },
+      {
         path: 'add',
         element: lazy(() => import('@/views/BackStage/AddPhoto')),
       },
