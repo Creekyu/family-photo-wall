@@ -16,7 +16,7 @@ const hpp = require('hpp');
 // 应用相关
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
-
+const OSSRoutes = require('./routes/OSSRoutes');
 
 const app = express();
 
@@ -111,6 +111,7 @@ app.use(
 
 // 3) ROUTES
 app.use('/api/users', userRouter);
+app.use('/api/policy', OSSRoutes);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));

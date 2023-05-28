@@ -31,7 +31,7 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
   getItem('添加照片', 'add', <PieChartOutlined />),
-  getItem('删除照片', 'edit', <DesktopOutlined />),
+  getItem('编辑照片', 'edit', <DesktopOutlined />),
 ];
 
 const BackStageMenu = () => {
