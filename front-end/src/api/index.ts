@@ -22,7 +22,7 @@ export const catchAsync =
           error(err.data.message);
         }
       })
-      .final(() => {
+      .finally(() => {
         if (effect) effect();
       });
   };
