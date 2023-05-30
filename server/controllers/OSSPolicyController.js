@@ -4,9 +4,9 @@ const OSS = require('ali-oss');
 
 // TODO:这里的Token上传github记得去掉
 const config = {
-  accessKeyId: 'LTAI5t95qXkpmNHV8hc78NKW',
-  accessKeySecret: 'IX9GgRnlRA3PYUPiPD1MVnsxfWc64E',
-  bucket: 'family-photo-wall',
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  accessKeySecret: process.env.ACCESS_KEY_SECRET,
+  bucket: process.env.BUCKET,
   callbackUrl: '',
   dir: '',
 };

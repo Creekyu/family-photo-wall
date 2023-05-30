@@ -47,7 +47,7 @@ const BackStage: React.FC = () => {
     });
   };
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className={style.wrapper}>
       <Sider trigger={null} collapsible collapsed={collapsed} width="15vw">
         <div className={style.logo}>相片管理</div>
         <BackStageMenu></BackStageMenu>
@@ -69,10 +69,8 @@ const BackStage: React.FC = () => {
           </div>
         </Header>
         <Content
+          className={style.content}
           style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
             background: colorBgContainer,
           }}
         >

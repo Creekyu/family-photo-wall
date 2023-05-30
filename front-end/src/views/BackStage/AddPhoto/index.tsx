@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { nanoid } from 'nanoid';
 
 // antd
+import { Form, Upload, Select } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
-import type { UploadProps } from 'antd';
-import { Form, Upload } from 'antd';
-import type { UploadFile } from 'antd/es/upload/interface';
 import { RcFile } from 'antd/lib/upload';
+import type { UploadFile } from 'antd/es/upload/interface';
+import type { UploadProps } from 'antd';
 
 const { Dragger } = Upload;
 
@@ -22,6 +22,7 @@ import { setSelectedKey } from '@/redux/slice/backstage';
 
 // api
 import { getOSSPolicy } from '@/api/OSS';
+import { addPhotos } from '@/api/images';
 
 interface OSSDataType {
   dir: string;
@@ -35,11 +36,14 @@ interface OSSDataType {
 interface AliyunOSSUploadProps {
   value?: UploadFile[];
   onChange?: (fileList: UploadFile[]) => void;
+  select: string;
 }
 
-const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
+const AliyunOSSUpload = ({ value, onChange, select }: AliyunOSSUploadProps) => {
   const message = useGlobalMessage();
   const [OSSData, setOSSData] = useState<OSSDataType>();
+  const [uploadList, setUploadList] = useState<string[]>([]);
+
   const init = async () => {
     getOSSPolicy(
       '',
@@ -54,6 +58,46 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
 
   useEffect(() => {
     init();
+  }, []);
+
+  // 这里当OSS上传后进行应用服务器上传
+  // 需要用防抖技术，否则会多次重复上传
+  const debounce = useCallback(() => {
+    let timer: any;
+    return (files: UploadFile[], select: string, uploadList: string[]) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        // 过滤已经上传的
+        const fileList = files.length
+          ? files.filter((file) => {
+              return !uploadList.includes(file.url as string);
+            })
+          : [];
+        const photos = fileList.map((file) => {
+          return { filename: file.url, classification: select };
+        });
+        if (photos.length)
+          addPhotos(
+            photos,
+            () => {
+              message.success('上传成功');
+              setUploadList([
+                ...uploadList,
+                ...(photos.map((photo) => photo.filename) as string[]),
+              ]);
+            },
+            (content) => {
+              message.error(
+                `上传至OSS成功但是上传至应用服务器失败：${content}`
+              );
+            }
+          );
+      }, 300);
+    };
+  }, []);
+
+  const debounceFunc = useMemo(() => {
+    return debounce();
   }, []);
 
   const handleChange: UploadProps['onChange'] = ({ file, fileList }) => {
@@ -71,8 +115,10 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
       return file.status === 'error';
     });
     if (uploads.length > 0) message.loading('上传中');
-    if (success.length > 0 && file.status !== 'removed')
-      message.success('上传成功');
+    if (success.length > 0 && file.status !== 'removed') {
+      // 应用服务器上传
+      debounceFunc(fileList, select, uploadList);
+    }
     if (error.length > 0) message.error('上传失败');
     // 修改状态列表
     onChange?.([...fileList]);
@@ -138,7 +184,7 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
   };
 
   return (
-    <Dragger {...uploadProps} listType="picture">
+    <Dragger {...uploadProps} listType="picture" height={300}>
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
@@ -152,15 +198,41 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
 
 const AddPhoto: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [selValue, setSelValue] = useState('now');
+  const handleChange = (value: string) => {
+    setSelValue(value);
+  };
+
   useEffect(() => {
     dispatch(setSelectedKey('add'));
   }, []);
   return (
-    <Form labelCol={{ span: 4 }}>
-      <Form.Item name="photos">
-        <AliyunOSSUpload />
-      </Form.Item>
-    </Form>
+    <div className={style.wrapper}>
+      <div className={style.classSelect}>
+        <span>请选择上传照片分类：</span>
+        <Select
+          defaultValue="now"
+          style={{ width: 160 }}
+          onChange={handleChange}
+          options={[
+            { value: 'now', label: '即时上传' },
+            { value: 'memory', label: '往事回忆' },
+            { value: 'timeline', label: '时间轴' },
+            { value: 'bigEvent', label: '大事记' },
+            { value: 'others', label: '其他' },
+          ]}
+        />
+        <span>*</span>
+        <span>用于前端不同照片展示区分类</span>
+      </div>
+      <div className={style.upload}>
+        <Form labelCol={{ span: 4 }}>
+          <Form.Item name="photos">
+            <AliyunOSSUpload select={selValue} />
+          </Form.Item>
+        </Form>
+      </div>
+    </div>
   );
 };
 export default AddPhoto;

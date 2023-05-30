@@ -4,7 +4,7 @@ const AuthController = require('../controllers/authController');
 const router = express.Router();
 
 router.use(AuthController.protect, AuthController.restrictTo('admin'));
-
+// policy
 router.get('/', OSSPolicyController.getPolicy);
 router.post('/result', OSSPolicyController.getResult);
 

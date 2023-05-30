@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 // 安全相关插件
 // const rateLimit = require('express-rate-limit');
-// const helmet = require('helmet');
+const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
@@ -16,8 +16,8 @@ const hpp = require('hpp');
 // 应用相关
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
-const OSSRoutes = require('./routes/OSSRoutes');
-const helmet = require('helmet');
+const OSSPolicyRoutes = require('./routes/OSSPolicyRoutes');
+const imagesRoutes = require('./routes/imagesRoutes');
 
 const app = express();
 
@@ -113,7 +113,8 @@ app.use(
 
 // 3) ROUTES
 app.use('/api/users', userRouter);
-app.use('/api/policy', OSSRoutes);
+app.use('/api/policy', OSSPolicyRoutes);
+app.use('/api/images', imagesRoutes);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
