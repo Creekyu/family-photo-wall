@@ -4,9 +4,9 @@ const OSS = require('ali-oss');
 
 // TODO:这里的Token上传github记得去掉
 const config = {
-  accessKeyId: 'LTAI5t84pUroGBMyeczv1YMZ',
-  accessKeySecret: '35peKhvNmE8WkQ7jSiflvm0itiXSYR',
-  bucket: 'criik-blog-image-storage',
+  accessKeyId: 'LTAI5t95qXkpmNHV8hc78NKW',
+  accessKeySecret: 'IX9GgRnlRA3PYUPiPD1MVnsxfWc64E',
+  bucket: 'family-photo-wall',
   callbackUrl: '',
   dir: '',
 };

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { nanoid } from 'nanoid';
 
 // antd
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Form, Upload } from 'antd';
 import type { UploadFile } from 'antd/es/upload/interface';
-import { getOSSPolicy } from '@/api/OSS';
+import { RcFile } from 'antd/lib/upload';
 
 const { Dragger } = Upload;
+
+// css
+import style from './index.module.scss';
 
 // context
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -15,6 +19,9 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // redux
 import { useAppDispatch } from '@/redux';
 import { setSelectedKey } from '@/redux/slice/backstage';
+
+// api
+import { getOSSPolicy } from '@/api/OSS';
 
 interface OSSDataType {
   dir: string;
@@ -49,7 +56,25 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
     init();
   }, []);
 
-  const handleChange: UploadProps['onChange'] = ({ fileList }) => {
+  const handleChange: UploadProps['onChange'] = ({ file, fileList }) => {
+    message.destroy();
+    // 上传msg
+    const uploads = fileList.filter((file) => {
+      return file.status === 'uploading';
+    });
+    // 成功msg
+    const success = fileList.filter((file) => {
+      return file.status === 'done';
+    });
+    // 失败msg
+    const error = fileList.filter((file) => {
+      return file.status === 'error';
+    });
+    if (uploads.length > 0) message.loading('上传中');
+    if (success.length > 0 && file.status !== 'removed')
+      message.success('上传成功');
+    if (error.length > 0) message.error('上传失败');
+    // 修改状态列表
     onChange?.([...fileList]);
   };
 
@@ -67,7 +92,7 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
     Signature: OSSData?.signature,
   });
 
-  const beforeUpload: UploadProps['beforeUpload'] = async (file) => {
+  const beforeUpload: UploadProps['beforeUpload'] = async (file, fileList) => {
     if (!OSSData) return false;
 
     const expire = Number(OSSData.expire) * 1000;
@@ -76,13 +101,28 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
       await init();
     }
 
+    // 判断是否是图像
+    const isImg = !!file.type.match('image');
+    if (!isImg) message.error('请上传图片类文件！');
     const suffix = file.name.slice(file.name.lastIndexOf('.'));
-    const filename = Date.now() + suffix;
+    const filename = nanoid() + suffix;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     file.url = OSSData.dir + filename;
+    return isImg || Upload.LIST_IGNORE;
+  };
 
-    return file;
+  // 预览
+  const onPreview = async (file: UploadFile) => {
+    const src = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file.originFileObj as RcFile);
+      reader.onload = () => resolve(reader.result as string);
+    });
+    const image = new Image();
+    image.src = src as string;
+    const imgWindow = window.open(src as string);
+    imgWindow?.document.write(image.outerHTML);
   };
 
   const uploadProps: UploadProps = {
@@ -92,21 +132,19 @@ const AliyunOSSUpload = ({ value, onChange }: AliyunOSSUploadProps) => {
     multiple: true,
     onChange: handleChange,
     onRemove,
+    onPreview,
     data: getExtraData,
     beforeUpload,
   };
 
   return (
-    <Dragger {...uploadProps}>
+    <Dragger {...uploadProps} listType="picture">
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
-      <p className="ant-upload-text">
-        Click or drag file to this area to upload
-      </p>
+      <p className="ant-upload-text">点击或者拖拽文件到此区域上传</p>
       <p className="ant-upload-hint">
-        Support for a single or bulk upload. Strictly prohibited from uploading
-        company data or other banned files.
+        支持单个或批量上传。支持所有的图片格式格式，请勿上传其他文件！
       </p>
     </Dragger>
   );
