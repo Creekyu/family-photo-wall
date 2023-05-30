@@ -1,5 +1,3 @@
-const { collection } = require('../models/commentModel');
-
 // 将各种针对query的操作放在对象内部
 class APIFeatures {
   constructor(query, queryString) {

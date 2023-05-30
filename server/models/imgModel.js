@@ -11,6 +11,10 @@ const imageSchema = new mongoose.Schema({
     enum: ['memory', 'timeline', 'bigEvent', 'now', 'others'],
     default: 'now',
   },
+  url: {
+    type: String,
+    default: 'https://family-photo-wall.oss-cn-chengdu.aliyuncs.com/',
+  },
 });
 
 imageSchema.pre(/^find/, function (next) {
