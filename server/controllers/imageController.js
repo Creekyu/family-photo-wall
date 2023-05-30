@@ -41,3 +41,23 @@ exports.getPhotos = catchAsync(async (req, res) => {
     },
   });
 });
+
+exports.delSingle = catchAsync(async (req, res) => {
+  await client.delete(req.body.filename, { quiet: true });
+  await Image.deleteOne({ filename: req.body.filename });
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+
+exports.delMany = catchAsync(async (req, res) => {
+  const { fileList } = req.body;
+  await client.deleteMulti(fileList, { quiet: true });
+  // 批量删除
+  await Image.deleteMany({ filename: { $in: fileList } });
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});

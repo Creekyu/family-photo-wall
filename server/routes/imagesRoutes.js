@@ -3,14 +3,14 @@ const imageController = require('../controllers/imageController');
 const authController = require('../controllers/authController');
 const router = express.Router();
 
-// router.use(authController.protect, authController.restrictTo('admin'));
+router.get('/', imageController.getPhotos);
+
+// 权限设置
+router.use(authController.protect, authController.restrictTo('admin'));
 router
   .route('/')
-  .get(imageController.getPhotos)
-  .post(
-    authController.protect,
-    authController.restrictTo('admin'),
-    imageController.addPhotos
-  );
+  .post(imageController.addPhotos)
+  .delete(imageController.delSingle);
+router.delete('/delMany', imageController.delMany);
 
 module.exports = router;
