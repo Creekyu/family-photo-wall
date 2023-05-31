@@ -1,5 +1,11 @@
 @import "@/assets/css/index.scss";
 
+@mixin onHover() {
+  box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+  position: relative;
+  z-index: $GRADE_TOP;
+}
+
 .photosBox {
   padding: 20px 0;
 
@@ -9,21 +15,49 @@
   }
 
   .link {
-    display: block;
+    cursor: pointer;
     float: left;
     width: 100%;
     height: 100%;
     transition: all .3s;
 
     &:hover {
-      box-shadow: 0 0 20px rgba(0, 0, 0, .5);
-      position: relative;
-      z-index: $GRADE_TOP;
+      @include onHover;
     }
 
     .img {
       width: 100%;
       height: 100%;
+    }
+  }
+
+  .noPhoto {
+    width: 100%;
+    height: 400px;
+    transition: all .3s;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      @include onHover
+    }
+
+    > div {
+      @include unSelectable;
+      color: #FFF;
+      width: 260px;
+      height: 24px;
+      line-height: 24px;
+      position: absolute;
+      margin:300px auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      font: {
+        size: 24px;
+        family: cursive;
+      }
     }
   }
 }

@@ -183,6 +183,13 @@ const AliyunOSSUpload = ({
     });
     const image = new Image();
     image.src = src as string;
+    // 居中
+    image.style.position = 'absolute';
+    image.style.left = '0';
+    image.style.right = '0';
+    image.style.bottom = '0';
+    image.style.top = '0';
+    image.style.margin = 'auto';
     const imgWindow = window.open(src as string);
     imgWindow?.document.write(image.outerHTML);
   };

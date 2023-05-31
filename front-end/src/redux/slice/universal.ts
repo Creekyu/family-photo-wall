@@ -8,8 +8,8 @@ const initialState = {
   chosen: 0,
 };
 
-const backStageSlice = createSlice({
-  name: 'backstage',
+const universalSlice = createSlice({
+  name: 'universal',
   initialState,
   reducers: {
     setSelectedKey: (state, action) => {
@@ -24,5 +24,5 @@ const backStageSlice = createSlice({
   },
 });
 
-export const { setSelectedKey, setIsLogin, setChosen } = backStageSlice.actions;
-export default backStageSlice.reducer;
+export const { setSelectedKey, setIsLogin, setChosen } = universalSlice.actions;
+export default universalSlice.reducer;
