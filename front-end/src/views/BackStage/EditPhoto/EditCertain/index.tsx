@@ -13,7 +13,7 @@ import style from './index.module.scss';
 
 // redux
 import { useAppDispatch } from '@/redux';
-import { setCurPage, setSelectedKey } from '@/redux/slice/backstage';
+import { setSelectedKey } from '@/redux/slice/universal';
 
 // api
 import {
@@ -88,7 +88,7 @@ const EditCertain = () => {
         dataIndex: 'filename',
       },
       {
-        title: '照片链接',
+        title: '预览',
         dataIndex: 'url',
         render: (_, { url }) => {
           return (

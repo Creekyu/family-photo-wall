@@ -8,7 +8,7 @@ interface AuthRouteProps {
 }
 
 const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
-  const isLogin = useAppSelector((state) => state.backstage.isLogin);
+  const isLogin = useAppSelector((state) => state.universal.isLogin);
   const location = useLocation();
   const path = location.pathname;
   return (

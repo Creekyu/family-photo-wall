@@ -1,0 +1,18 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  background-color: $BACKGROUND_THEME;
+  margin-top:50px;
+  .content{
+    width: $MAX_WIDTH;
+    box-sizing: border-box;
+    padding:30px;
+    background-color: #FFF;
+    margin-bottom: 50px;
+    border: {
+      radius: 5px;
+    };
+  }
+}

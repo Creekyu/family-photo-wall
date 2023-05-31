@@ -1,0 +1,29 @@
+@import "@/assets/css/index.scss";
+
+.photosBox {
+  padding: 20px 0;
+
+  .title {
+    padding: 20px 0;
+    font-size: 20px;
+  }
+
+  .link {
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100%;
+    transition: all .3s;
+
+    &:hover {
+      box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+      position: relative;
+      z-index: $GRADE_TOP;
+    }
+
+    .img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

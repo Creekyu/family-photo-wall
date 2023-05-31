@@ -47,11 +47,11 @@ const items: MenuItem[] = [
 
 const BackStageMenu = () => {
   const navigate = useNavigate();
-  const selectedKey = useAppSelector((state) => state.backstage.selectedKey);
+  const selectedKey = useAppSelector((state) => state.universal.selectedKey);
   return (
     <Menu
       theme="dark"
-      openKeys={['edit']}
+      defaultOpenKeys={['edit']}
       selectedKeys={[selectedKey]}
       mode="inline"
       items={items}

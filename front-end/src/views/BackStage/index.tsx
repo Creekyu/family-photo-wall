@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Outlet } from 'react-router';
+import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
 // antd
@@ -20,7 +21,7 @@ import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // redux
-import { setIsLogin } from '@/redux/slice/backstage';
+import { setIsLogin } from '@/redux/slice/universal';
 import { useAppDispatch } from '@/redux';
 
 const BackStage: React.FC = () => {
@@ -64,6 +65,9 @@ const BackStage: React.FC = () => {
               height: 64,
             }}
           />
+          <Link to="/" className={style.back}>
+            返回主界面
+          </Link>
           <div className={style.logOut} onClick={handleLogout}>
             Log out
           </div>

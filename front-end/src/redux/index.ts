@@ -3,7 +3,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 
 // reducers
-import backstage from './slice/backstage';
+import universal from './slice/universal';
 
 //持久存储
 import {
@@ -19,7 +19,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 const reducers = combineReducers({
-  backstage,
+  universal,
 });
 
 const persistConfig = {

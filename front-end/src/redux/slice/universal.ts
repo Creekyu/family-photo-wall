@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  // 后台
   selectedKey: 'add',
   isLogin: false,
-  curPage: 1,
+  // top header
+  chosen: 0,
 };
 
 const backStageSlice = createSlice({
@@ -16,12 +18,11 @@ const backStageSlice = createSlice({
     setIsLogin: (state, action) => {
       state.isLogin = action.payload;
     },
-    setCurPage: (state, action) => {
-      state.curPage = action.payload;
+    setChosen: (state, action) => {
+      state.chosen = action.payload;
     },
   },
 });
 
-export const { setSelectedKey, setIsLogin, setCurPage } =
-  backStageSlice.actions;
+export const { setSelectedKey, setIsLogin, setChosen } = backStageSlice.actions;
 export default backStageSlice.reducer;

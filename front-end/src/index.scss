@@ -1,7 +1,9 @@
 @import "@/assets/css/index.scss";
+@import '@/assets/iconfont/iconfont.css';
 
 body {
   overflow-x: hidden;
+  background-color: $BACKGROUND_THEME;
 }
 
 #root {

@@ -19,7 +19,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // redux
 import { useAppDispatch } from '@/redux';
-import { setSelectedKey } from '@/redux/slice/backstage';
+import { setSelectedKey } from '@/redux/slice/universal';
 
 // api
 import { getOSSPolicy } from '@/api/OSS';

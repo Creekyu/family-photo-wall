@@ -1,0 +1,16 @@
+{
+  "id": "4097559",
+  "name": "family-photo-wall",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "14401714",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    }
+  ]
+}

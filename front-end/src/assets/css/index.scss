@@ -1,7 +1,16 @@
 $THEME_COLOR: #5c92d1;
 $FONT_COLOR: #2c3e50;
 $BACKGROUND_COLOR: #FFF;
+$BACKGROUND_THEME: #f5f7fd;
 $GRADE_TOP: 999;
 $GRADE_MIDDLE: 500;
 $GRADE_BOTTOM: 100;
 $BREAK_POINT: 768px;
+$MAX_WIDTH: 1100px;
+
+@mixin unSelectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

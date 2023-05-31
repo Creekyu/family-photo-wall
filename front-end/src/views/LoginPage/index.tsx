@@ -19,7 +19,7 @@ import { userApi } from '@/api/users';
 import { LoginFormObj } from '@/interface/userApi';
 
 // redux
-import { setIsLogin } from '@/redux/slice/backstage';
+import { setIsLogin } from '@/redux/slice/universal';
 import { useAppDispatch } from '@/redux';
 
 const LoginForm = () => {
@@ -48,22 +48,6 @@ const LoginForm = () => {
         cookies.set('user', user, { expires });
         cookies.set('token', data.token, { expires });
         dispatch(setIsLogin(true));
-        // // 获取OSSPolicy
-        // OSSApi.getOSSPolicy(
-        //   '',
-        //   (data) => {
-        //     console.log(data.expires, Date.now());
-        //     cookies.set('OSSPolicy', data, {
-        //       expires: new Date(data.expires),
-        //     });
-        //   },
-        //   (content) => {
-        //     message.error(content);
-        //   },
-        //   () => {
-        //     setLoading(false);
-        //   }
-        // );
         // 跳转
         navigate('/manage/add');
       },

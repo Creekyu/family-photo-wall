@@ -19,11 +19,16 @@
   .logOut{
     cursor: pointer;
     float:right;
-    padding-right:30px;
+    padding-right:20px;
     transition: all .3s;
     &:hover{
       color:$THEME_COLOR;
     }
+  }
+
+  .back{
+    float:right;
+    padding-right:20px;
   }
 
   .content{

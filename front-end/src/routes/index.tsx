@@ -13,6 +13,20 @@ const router: Routes[] = [
   {
     path: '/',
     element: lazy(() => import('@/views/MainPage')),
+    children: [
+      {
+        path: '',
+        element: lazy(() => import('@/views/MainPage/HomePage')),
+      },
+      {
+        path: 'timeline',
+        element: lazy(() => import('@/views/MainPage/TimeLine')),
+      },
+      {
+        path: 'class',
+        element: lazy(() => import('@/views/MainPage/PhotoWall')),
+      },
+    ],
   },
   {
     path: '/manage',
