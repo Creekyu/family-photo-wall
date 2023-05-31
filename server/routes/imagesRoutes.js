@@ -10,7 +10,9 @@ router.use(authController.protect, authController.restrictTo('admin'));
 router
   .route('/')
   .post(imageController.addPhotos)
+  .patch(imageController.updateClass)
   .delete(imageController.delSingle);
 router.delete('/delMany', imageController.delMany);
+router.get('/getCount', imageController.getCount);
 
 module.exports = router;

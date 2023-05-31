@@ -1,7 +1,7 @@
 .wrapper {
-  .classSelect {
+  .classSelect,.photoTime {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
     span:first-child{
       padding-right:5px;
     }
@@ -18,7 +18,7 @@
     width: 80%;
     margin: 0 auto;
     padding:{
-      top:20px;
+      top:10px;
     }
   }
 }

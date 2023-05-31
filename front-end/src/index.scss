@@ -1,5 +1,10 @@
 @import "@/assets/css/index.scss";
-#root{
+
+body {
+  overflow-x: hidden;
+}
+
+#root {
   height: 100vh;
 }
 

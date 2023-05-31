@@ -16,7 +16,7 @@ import { userApi } from '@/api/users';
 // import { OSSApi } from '@/api/OSS';
 
 // interface
-import { loginForm } from '@/interface/userApi';
+import { LoginFormObj } from '@/interface/userApi';
 
 // redux
 import { setIsLogin } from '@/redux/slice/backstage';
@@ -28,7 +28,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   // Handle Submit
-  const onFinish = (values: loginForm) => {
+  const onFinish = (values: LoginFormObj) => {
     setLoading(true);
     if (!isEmail(values.email)) {
       message.error('请输入正确的邮箱！');

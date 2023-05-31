@@ -25,7 +25,7 @@ class APIFeatures {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
     } else {
-      this.query = this.query.sort('-publishAt'); // 默认排序
+      this.query = this.query.sort('-uploadAt'); // 默认排序
     }
     return this;
   }

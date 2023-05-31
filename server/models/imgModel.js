@@ -8,12 +8,20 @@ const imageSchema = new mongoose.Schema({
   },
   classification: {
     type: String,
-    enum: ['memory', 'timeline', 'bigEvent', 'now', 'others'],
+    enum: ['memory', 'bigEvent', 'now', 'others'],
     default: 'now',
   },
   url: {
     type: String,
     default: 'https://family-photo-wall.oss-cn-chengdu.aliyuncs.com/',
+  },
+  uploadAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  photoTime: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

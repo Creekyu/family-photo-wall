@@ -1,4 +1,4 @@
-export interface apiFeatures {
+export interface ApiFeatures {
   sort: string;
   page: string;
   fields: string;

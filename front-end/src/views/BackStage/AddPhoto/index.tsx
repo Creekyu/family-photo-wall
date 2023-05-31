@@ -2,11 +2,12 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { nanoid } from 'nanoid';
 
 // antd
-import { Form, Upload, Select } from 'antd';
+import { Form, Upload, Select, DatePicker } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/lib/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import type { UploadProps } from 'antd';
+import 'dayjs/locale/zh-cn';
 
 const { Dragger } = Upload;
 
@@ -37,9 +38,15 @@ interface AliyunOSSUploadProps {
   value?: UploadFile[];
   onChange?: (fileList: UploadFile[]) => void;
   select: string;
+  time: Date;
 }
 
-const AliyunOSSUpload = ({ value, onChange, select }: AliyunOSSUploadProps) => {
+const AliyunOSSUpload = ({
+  value,
+  onChange,
+  select,
+  time,
+}: AliyunOSSUploadProps) => {
   const message = useGlobalMessage();
   const [OSSData, setOSSData] = useState<OSSDataType>();
   const [uploadList, setUploadList] = useState<string[]>([]);
@@ -64,7 +71,12 @@ const AliyunOSSUpload = ({ value, onChange, select }: AliyunOSSUploadProps) => {
   // 需要用防抖技术，否则会多次重复上传
   const debounce = useCallback(() => {
     let timer: any;
-    return (files: UploadFile[], select: string, uploadList: string[]) => {
+    return (
+      files: UploadFile[],
+      select: string,
+      uploadList: string[],
+      time: Date
+    ) => {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         // 过滤已经上传的
@@ -74,7 +86,11 @@ const AliyunOSSUpload = ({ value, onChange, select }: AliyunOSSUploadProps) => {
             })
           : [];
         const photos = fileList.map((file) => {
-          return { filename: file.url, classification: select };
+          return {
+            filename: file.url,
+            classification: select,
+            photoTime: time,
+          };
         });
         if (photos.length)
           addPhotos(
@@ -117,7 +133,7 @@ const AliyunOSSUpload = ({ value, onChange, select }: AliyunOSSUploadProps) => {
     if (uploads.length > 0) message.loading('上传中');
     if (success.length > 0 && file.status !== 'removed') {
       // 应用服务器上传
-      debounceFunc(fileList, select, uploadList);
+      debounceFunc(fileList, select, uploadList, time);
     }
     if (error.length > 0) message.error('上传失败');
     // 修改状态列表
@@ -199,8 +215,15 @@ const AliyunOSSUpload = ({ value, onChange, select }: AliyunOSSUploadProps) => {
 const AddPhoto: React.FC = () => {
   const dispatch = useAppDispatch();
   const [selValue, setSelValue] = useState('now');
+  const [time, setTime] = useState<Date>(new Date(Date.now()));
+  const dateFormat = 'YYYY/MM/DD';
+
   const handleChange = (value: string) => {
     setSelValue(value);
+  };
+
+  const handleTime = (value: any) => {
+    setTime(value.$d);
   };
 
   useEffect(() => {
@@ -217,7 +240,6 @@ const AddPhoto: React.FC = () => {
           options={[
             { value: 'now', label: '即时上传' },
             { value: 'memory', label: '往事回忆' },
-            { value: 'timeline', label: '时间轴' },
             { value: 'bigEvent', label: '大事记' },
             { value: 'others', label: '其他' },
           ]}
@@ -225,10 +247,20 @@ const AddPhoto: React.FC = () => {
         <span>*</span>
         <span>用于前端不同照片展示区分类</span>
       </div>
+      <div className={style.photoTime}>
+        <span>请选择上传照片日期：</span>
+        <DatePicker
+          placeholder="请选择照片日期"
+          format={dateFormat}
+          onChange={handleTime}
+        />
+        <span>*</span>
+        <span>用于时间轴展示（不填默认为当前时间）</span>
+      </div>
       <div className={style.upload}>
         <Form labelCol={{ span: 4 }}>
           <Form.Item name="photos">
-            <AliyunOSSUpload select={selValue} />
+            <AliyunOSSUpload select={selValue} time={time} />
           </Form.Item>
         </Form>
       </div>

@@ -2,6 +2,7 @@ const OSS = require('ali-oss');
 const Image = require('../models/imgModel');
 const catchAsync = require('../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
+const filterObj = require('../utils/filterObj');
 
 // OSS
 const client = new OSS({
@@ -17,6 +18,7 @@ exports.addPhotos = catchAsync(async (req, res) => {
       return {
         filename: img.filename,
         classification: img.classification,
+        photoTime: img.photoTime,
       };
     })
   );
@@ -42,8 +44,20 @@ exports.getPhotos = catchAsync(async (req, res) => {
   });
 });
 
+exports.getCount = catchAsync(async (req, res) => {
+  const { classification } = req.query;
+  const count = await Image.count({ classification });
+  res.status(200).json({
+    status: 'success',
+    data: {
+      count,
+    },
+  });
+});
+
 exports.delSingle = catchAsync(async (req, res) => {
-  await client.delete(req.body.filename, { quiet: true });
+  const { filename } = req.body;
+  await client.delete(filename, { quiet: true });
   await Image.deleteOne({ filename: req.body.filename });
   res.status(204).json({
     status: 'success',
@@ -59,5 +73,24 @@ exports.delMany = catchAsync(async (req, res) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  });
+});
+
+exports.updateClass = catchAsync(async (req, res, next) => {
+  const { fileList } = req.body;
+  const filteredBody = filterObj(req.body, 'classification');
+  const updatedList = await Image.updateMany(
+    { filename: { $in: fileList } },
+    filteredBody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedList,
+    },
   });
 });

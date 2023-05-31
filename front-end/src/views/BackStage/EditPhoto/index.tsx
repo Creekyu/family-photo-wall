@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
-
-// redux
-import { setSelectedKey } from '@/redux/slice/backstage';
-import { useAppDispatch } from '@/redux';
+import React from 'react';
+import { Outlet } from 'react-router';
 
 const EditPhoto = () => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(setSelectedKey('edit'));
-  }, []);
-  return <div>DelPhoto</div>;
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 };
 
 export default EditPhoto;

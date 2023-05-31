@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 // antd
 import { ConfigProvider } from 'antd';
+import locale from 'antd/locale/zh_CN';
 
 // comp
 import App from './App';
@@ -32,6 +33,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ConfigProvider
+        locale={locale}
         theme={{
           token: {
             colorPrimary: THEME_COLOR,

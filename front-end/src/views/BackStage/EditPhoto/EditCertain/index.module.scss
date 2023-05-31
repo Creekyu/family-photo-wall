@@ -1,0 +1,18 @@
+.wrapper {
+  > div {
+    padding:10px 0;
+  }
+
+  .tip{
+    font-size: 18px;
+    span{
+      padding:0 5px;
+    }
+  }
+
+  .func{
+    >*{
+      margin:0 5px;
+    }
+  }
+}
