@@ -7,6 +7,7 @@ import style from './index.module.scss';
 // comp
 import TopDisplay from '@/components/TopDisplay';
 import ArrangedBox from '@/components/ArrangedBox';
+import LoadingComp from '@/components/LoadingComp';
 
 // img
 import img from '@/assets/images/photowall.png';
@@ -27,7 +28,6 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // redux
 import { useAppDispatch } from '@/redux';
 import { setChosen } from '@/redux/slice/universal';
-import LoadingComp from '@/components/LoadingComp';
 
 const PhotoWall = () => {
   const {
@@ -166,6 +166,9 @@ const PhotoWall = () => {
               <div
                 className={style.noPhoto}
                 style={{ backgroundImage: `url(${img1})` }}
+                onClick={() => {
+                  onPreview(img1);
+                }}
               >
                 <div>当前分类暂时没有照片~</div>
               </div>

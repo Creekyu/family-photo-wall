@@ -6,6 +6,7 @@
   background: #FFF;
   margin: 30px 0;
   position: relative;
+  transition: all .3s;
   background: {
     size: cover;
     repeat: no-repeat;
@@ -13,6 +14,10 @@
   border: {
     radius: 5px;
   };
+
+  &:hover{
+    @include onHover;
+  }
 
   > div {
     color: white;

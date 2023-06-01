@@ -65,10 +65,14 @@
       height: 400px;
       border-radius: 5px;
       position: relative;
+      transition: all .3s;
       background: {
         size: cover;
         repeat: no-repeat;
       };
+      &:hover{
+        @include onHover;
+      }
 
       > div {
         height: 24px;
