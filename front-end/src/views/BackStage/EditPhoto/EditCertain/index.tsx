@@ -176,7 +176,7 @@ const EditCertain = () => {
         page: page ? page : 1,
         limit: 6,
         fields: '',
-        sort: '_id',
+        sort: '-_id',
         options: `classification=${classification}`,
       },
       (res) => {

@@ -16,6 +16,9 @@ import img from '@/assets/images/rand-8.png';
 // comp
 import ArrangedBox from '@/components/Homepage/ArrangedBox';
 
+// util
+import { onPreview } from '@/utils';
+
 interface PhotoBoxProps {
   classification: cls;
   title: clsValue;
@@ -26,20 +29,6 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({ classification, title, rand }) => {
   const message = useGlobalMessage();
   const [photos, setPhotos] = useState<React.ReactNode[]>([]);
   const [randPhoto, setRandPhoto] = useState(img);
-  const onPreview = (url: string) => {
-    const src = url as string;
-    const image = new Image();
-    image.src = src;
-    // 居中
-    image.style.position = 'absolute';
-    image.style.left = '0';
-    image.style.right = '0';
-    image.style.bottom = '0';
-    image.style.top = '0';
-    image.style.margin = 'auto';
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
 
   useEffect(() => {
     // 获取一张随机图片
