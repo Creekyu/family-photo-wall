@@ -1,8 +1,9 @@
 @import "@/assets/css/index.scss";
 @import '@/assets/iconfont/iconfont.css';
 
-body {
+html {
   overflow-x: hidden;
+  overflow-y: scroll;
   background-color: $BACKGROUND_THEME;
 }
 

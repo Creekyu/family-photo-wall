@@ -19,13 +19,18 @@ import BackStageMenu from '@/components/BackStage/Menu';
 // context
 import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // redux
 import { setIsLogin } from '@/redux/slice/universal';
 import { useAppDispatch } from '@/redux';
 
+// global
+import { BREAK_POINT } from '@/global';
+
 const BackStage: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { width } = useViewport();
+  const [collapsed, setCollapsed] = useState(width <= BREAK_POINT);
   const dispatch = useAppDispatch();
   const {
     token: { colorBgContainer },

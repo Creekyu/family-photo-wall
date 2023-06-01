@@ -1,20 +1,44 @@
 @import "@/assets/css/index.scss";
 
-.wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-color: $BACKGROUND_THEME;
-  margin-top: 30px;
+@mixin universal(){
+  .wrapper {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: $BACKGROUND_THEME;
+    margin-top: 30px;
 
+    .content {
+      box-sizing: border-box;
+      background-color: #FFF;
+      margin-bottom: 50px;
+      padding:{
+        top:0;
+        left:30px;
+        right:30px;
+        bottom: 30px;;
+      }
+      border: {
+        radius: 5px;
+      };
+    }
+  }
+}
+
+@media (width>$BREAK_POINT) {
+  @include universal;
   .content {
     width: $MAX_WIDTH;
-    box-sizing: border-box;
-    padding: 30px;
-    background-color: #FFF;
-    margin-bottom: 50px;
-    border: {
-      radius: 5px;
-    };
+  }
+}
+
+@media (width<=$BREAK_POINT) {
+  @include universal;
+  .wrapper{
+    padding:0 10px;
+    .content{
+      width: 100%;
+    }
   }
 }

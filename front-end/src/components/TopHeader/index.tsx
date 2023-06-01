@@ -9,7 +9,7 @@ import LinkBtn from '@/components/TopHeader/LinkBtn';
 const menu = ['首页', '时间轴', '往事回忆', '大事记', '即时上传', '其他'];
 const TopHeader = () => {
   return (
-    <div className={style.wrapper}>
+    <div className={`${style.wrapper} clearfix`}>
       <div className={style.content}>
         <div className={style.logo}>Family Photo Wall</div>
         <div className={style.btns}>

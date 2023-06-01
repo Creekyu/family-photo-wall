@@ -3,19 +3,28 @@ import React from 'react';
 // antd
 import { Col, Row } from 'antd';
 
+// provider
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+
+// global
+import { BREAK_POINT } from '@/global';
+
 interface ArrangedBoxProps {
   photos: React.ReactNode[];
 }
 
 const ArrangedBox: React.FC<ArrangedBoxProps> = ({ photos }) => {
-  const colStyle = { height: '100%', maxHeight: '200px', minHeight: 157 };
-  const rowStyle = { height: '50%', minHeight: 157 };
+  const { width } = useViewport();
+  const colStyle = width > BREAK_POINT ? { height: 157 } : { height: 46.63 };
+  const col2Style =
+    width > BREAK_POINT ? { height: 157 * 2 } : { height: 46.63 * 2 };
+  const rowStyle = width > BREAK_POINT ? { height: 157 } : { height: 46.63 };
   return (
     <>
       {photos.length >= 0 ? (
         <Row>
           <Col span={12}>
-            <Row style={{ height: '50%' }}>
+            <Row style={rowStyle}>
               {photos[0] ? (
                 <Col span={12} style={colStyle}>
                   {photos[0]}
@@ -27,7 +36,7 @@ const ArrangedBox: React.FC<ArrangedBoxProps> = ({ photos }) => {
                 </Col>
               ) : undefined}
             </Row>
-            <Row style={{ height: '50%' }}>
+            <Row style={rowStyle}>
               {photos[2] ? (
                 <Col span={12} style={colStyle}>
                   {photos[2]}
@@ -41,7 +50,7 @@ const ArrangedBox: React.FC<ArrangedBoxProps> = ({ photos }) => {
             </Row>
           </Col>
           {photos[4] ? (
-            <Col span={12} style={{ minHeight: 157 * 2 }}>
+            <Col span={12} style={col2Style}>
               {photos[4]}
             </Col>
           ) : undefined}
@@ -54,7 +63,7 @@ const ArrangedBox: React.FC<ArrangedBoxProps> = ({ photos }) => {
             {photos[6] ? <Row style={rowStyle}>{photos[6]}</Row> : undefined}
           </Col>
           {photos[7] ? (
-            <Col span={12} style={{ minHeight: 157 * 2 }}>
+            <Col span={12} style={col2Style}>
               {photos[7]}
             </Col>
           ) : undefined}
@@ -68,7 +77,7 @@ const ArrangedBox: React.FC<ArrangedBoxProps> = ({ photos }) => {
       {photos.length > 10 ? (
         <Row>
           {photos[10] ? (
-            <Col span={12} style={{ minHeight: 157 * 2 }}>
+            <Col span={12} style={col2Style}>
               {photos[10]}
             </Col>
           ) : undefined}

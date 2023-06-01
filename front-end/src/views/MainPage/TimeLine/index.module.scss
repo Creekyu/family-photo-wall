@@ -1,17 +1,90 @@
 @import "@/assets/css/index.scss";
 
-.wrapper {
-  padding: 10px 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 
-  .content {
+@mixin universal(){
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .content {
+      background: #FFF;
+      box-sizing: border-box;
+      margin-bottom: 50px;
+
+
+      > ul, > div:not(:first-child) {
+        animation: showAnime 1.5s;
+      }
+
+      .year {
+        color: $FONT_COLOR;
+        font: {
+          size: 30px;
+          weight: bold;
+        }
+      }
+
+      .dot {
+        width: 7px;
+        height: 7px;
+        background: rgba(0, 0, 0, .3);
+        border-radius: 50%;
+        transition: background-color .5s;
+      }
+
+      .itemWrapper {
+        cursor: pointer;
+        transition: all .3s;
+
+        > img {
+          width: 100%;
+          height: 100%;
+        }
+
+        &:hover {
+          box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+        }
+
+      }
+
+      .load {
+        padding: 20px 0;
+        @include unSelectable;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        transition: all .3s;
+        border: {
+          radius: 5px;
+        };
+
+        &:hover {
+          background: rgba(0, 0, 0, .1);
+        }
+
+        > span:first-child {
+          font-size: 18px;
+        }
+      }
+
+      .noTimeLine{
+        font-size: 20px;
+        width: 155px;
+        margin: 0 auto;
+        padding-bottom: 30px;
+      }
+    }
+  }
+}
+
+
+
+@media (width>$BREAK_POINT) {
+  @include universal;
+  .content{
     width: $MAX_WIDTH;
-    background: #FFF;
-    box-sizing: border-box;
-    margin-bottom: 50px;
     padding: {
       bottom: 0;
       top: 50px;
@@ -19,59 +92,20 @@
       right: 50px;
     }
 
+  }
+}
 
-    > ul, > div:not(:first-child) {
-      animation: showAnime 1.5s;
-    }
-
-    .year {
-      color: $FONT_COLOR;
-      font: {
-        size: 30px;
-        weight: bold;
-      }
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: rgba(0, 0, 0, .3);
-      border-radius: 50%;
-      transition: background-color .5s;
-    }
-
-    .itemWrapper {
-      cursor: pointer;
-      transition: all .3s;
-
-      > img {
-        width: 100%;
-        height: 100%;
-      }
-
-      &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, .5);
-      }
-
-    }
-
-    .load {
-      padding: 20px 0;
-      @include unSelectable;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      transition: all .3s;
-      border: {
-        radius: 5px;
-      };
-
-      &:hover {
-        background: rgba(0, 0, 0, .1);
-      }
-
-      > span:first-child {
-        font-size: 18px;
+@media (width<=$BREAK_POINT) {
+  @include universal;
+  .wrapper{
+    padding: 0 20px;
+    .content{
+      width: 100%;
+      padding: {
+        bottom: 0;
+        top: 20px;
+        left: 20px;
+        right: 20px;
       }
     }
   }

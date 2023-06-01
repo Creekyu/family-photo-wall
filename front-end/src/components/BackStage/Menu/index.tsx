@@ -13,9 +13,6 @@ import {
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
-// css
-import style from './index.module.scss';
-
 // redux
 import { useAppSelector } from '@/redux';
 

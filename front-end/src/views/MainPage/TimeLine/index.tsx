@@ -147,7 +147,11 @@ const TimeLine = () => {
       <div className={style.content}>
         <LoadingComp loading={loading}></LoadingComp>
         <div className={loading ? 'loading-active' : 'loading-not-active'}>
-          <Timeline mode="alternate" items={generateTimeLine(photos)} />
+          {photos.length ? (
+            <Timeline mode="alternate" items={generateTimeLine(photos)} />
+          ) : (
+            <div className={style.noTimeLine}>当前没有时间轴~</div>
+          )}
           <div className={style.load} onClick={handleClick}>
             <span className="iconfont">&#xe7ef;</span>&nbsp;
             <span>加载更多</span>

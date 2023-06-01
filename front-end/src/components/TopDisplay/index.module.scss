@@ -1,38 +1,57 @@
 @import "@/assets/css/index.scss";
-.logo {
-  @include unSelectable;
-  width: $MAX_WIDTH;
-  height: 300px;
-  background: #FFF;
-  margin: 30px 0;
-  position: relative;
-  transition: all .3s;
-  background: {
-    size: cover;
-    repeat: no-repeat;
-  };
-  border: {
-    radius: 5px;
-  };
 
-  &:hover{
-    @include onHover;
-  }
+@mixin universal(){
+  .logo {
+    @include unSelectable;
+    background: #FFF;
+    margin: 30px 0;
+    position: relative;
+    transition: all .3s;
+    background: {
+      size: cover;
+      repeat: no-repeat;
+      clip:content-box;
+    };
+    border: {
+      radius: 5px;
+    };
 
-  > div {
-    color: white;
-    position: absolute;
-    width: 230px;
-    height: 20px;
-    line-height: 20px;
-    font:{
-      size: 24px;
-      family: cursive;
+    &:hover{
+      @include onHover;
     }
-    margin: auto;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
+
+    > div {
+      color: white;
+      position: absolute;
+      width: 230px;
+      height: 20px;
+      line-height: 20px;
+      font:{
+        size: 24px;
+        family: cursive;
+      }
+      margin: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+    }
+  }
+}
+
+@media (width>$BREAK_POINT) {
+ @include universal;
+  .logo{
+    width: $MAX_WIDTH;
+    height: 300px;
+  }
+}
+
+@media (width<=$BREAK_POINT) {
+  @include universal;
+  .logo{
+    width: 100%;
+    height: 200px;
+    box-sizing: border-box;
   }
 }

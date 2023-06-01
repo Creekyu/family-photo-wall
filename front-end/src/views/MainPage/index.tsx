@@ -15,7 +15,7 @@ const MainPage = () => {
     dispatch(generateRandList());
   }, []);
   return (
-    <div>
+    <div className="clearfix">
       <TopHeader></TopHeader>
       <Outlet></Outlet>
     </div>

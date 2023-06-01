@@ -1,46 +1,64 @@
 @import "@/assets/css/index.scss";
 
-.wrapper {
-  cursor: pointer;
-  $bar-to-content: 7px;
-  // 内容区
+
+@mixin universal(){
+  .wrapper {
+    cursor: pointer;
+    $bar-to-content: 7px;
+    // 内容区
+    .content {
+      text-align: center;
+      transition: all .3s;
+      color:#666;
+      @include unSelectable;
+
+      &:hover {
+        color:$THEME_COLOR;
+        .bar {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+
+      // 动画条
+      .bar {
+        width: 0;
+        height: 2px;
+        background-color: $THEME_COLOR;
+        margin: {
+          top: $bar-to-content;
+          left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
+        }
+        transition-property: width, margin-left;
+        transition-duration: 0.3s;
+      }
+
+      // 选中的效果
+      .chosenBar {
+        width: 100%;
+        height: 2px;
+        margin-top: $bar-to-content;
+        background-color: $THEME_COLOR;
+        color:$THEME_COLOR;
+      }
+
+    }
+  }
+}
+
+
+@media (width>$BREAK_POINT){
+  @include universal;
   .content {
     width: 80px;
     font-size: 15px;
-    text-align: center;
-    transition: all .3s;
-    color:#666;
-    @include unSelectable;
+  }
 
-    &:hover {
-      color:$THEME_COLOR;
-      .bar {
-        width: 100%;
-        margin-left: 0;
-      }
-    }
+}
 
-    // 动画条
-    .bar {
-      width: 0;
-      height: 2px;
-      background-color: $THEME_COLOR;
-      margin: {
-        top: $bar-to-content;
-        left: 50%; // 设一个margin-left，让其也随着过渡，这样就能保证从中间开始过渡
-      }
-      transition-property: width, margin-left;
-      transition-duration: 0.3s;
-    }
-
-    // 选中的效果
-    .chosenBar {
-      width: 100%;
-      height: 2px;
-      margin-top: $bar-to-content;
-      background-color: $THEME_COLOR;
-      color:$THEME_COLOR;
-    }
-
+@media (width<=$BREAK_POINT){
+  @include universal;
+  .content{
+    font-size: 12px;
   }
 }
