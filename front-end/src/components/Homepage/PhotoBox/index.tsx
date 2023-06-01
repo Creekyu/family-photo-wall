@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-// antd
-import { Col, Row } from 'antd';
-
 // css
 import style from './index.module.scss';
 
@@ -15,6 +12,9 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // img
 import img from '@/assets/images/rand-8.png';
+
+// comp
+import ArrangedBox from '@/components/Homepage/ArrangedBox';
 
 interface PhotoBoxProps {
   classification: cls;
@@ -52,7 +52,7 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({ classification, title, rand }) => {
     getPhotos(
       {
         page: 1,
-        limit: 10,
+        limit: 15,
         fields: '',
         sort: '_id',
         options: `classification=${classification}`,
@@ -89,30 +89,7 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({ classification, title, rand }) => {
       <div className={`${style.photos} clearfix`}>
         {photos.length ? (
           <>
-            <Row>
-              <Col span={12}>
-                <Row style={{ height: '50%' }}>
-                  <Col span={12}>{photos[0]}</Col>
-                  <Col span={12}>{photos[1]}</Col>
-                </Row>
-                <Row style={{ height: '50%' }}>
-                  <Col span={12}>{photos[2]}</Col>
-                  <Col span={12}>{photos[3]}</Col>
-                </Row>
-              </Col>
-              <Col span={12}>{photos[4]}</Col>
-            </Row>
-            <Row>
-              <Col span={6}>
-                <Row style={{ height: '50%' }}>{photos[5]}</Row>
-                <Row style={{ height: '50%' }}>{photos[6]}</Row>
-              </Col>
-              <Col span={12}>{photos[7]}</Col>
-              <Col span={6}>
-                <Row style={{ height: '50%' }}>{photos[8]}</Row>
-                <Row style={{ height: '50%' }}>{photos[9]}</Row>
-              </Col>
-            </Row>
+            <ArrangedBox photos={photos}></ArrangedBox>
           </>
         ) : (
           <div

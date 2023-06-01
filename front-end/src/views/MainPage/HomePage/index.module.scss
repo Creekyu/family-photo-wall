@@ -8,6 +8,7 @@
   margin-top: 30px;
 
   .logo {
+    @include unSelectable;
     width: $MAX_WIDTH;
     height: 300px;
     background: #FFF;
