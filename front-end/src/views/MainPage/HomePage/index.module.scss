@@ -16,5 +16,17 @@
     border: {
       radius: 5px;
     };
+
+    .noLoading {
+      display: none;
+    }
+
+    .noActive {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
   }
 }

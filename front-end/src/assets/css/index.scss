@@ -8,9 +8,45 @@ $GRADE_BOTTOM: 100;
 $BREAK_POINT: 768px;
 $MAX_WIDTH: 1100px;
 
+// 全局浮现动画效果
+@keyframes showAnime {
+  from {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @mixin unSelectable {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@mixin onHover{
+  box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+  position: relative;
+  z-index: $GRADE_TOP;
+}
+
+@mixin photoLink{
+  cursor: pointer;
+  float: left;
+  width: 100%;
+  height: 100%;
+  transition: all .3s;
+
+  &:hover {
+    @include onHover;
+  }
+
+  .img {
+    width: 100%;
+    height: 100%;
+  }
 }

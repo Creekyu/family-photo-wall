@@ -14,7 +14,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import img from '@/assets/images/rand-8.png';
 
 // comp
-import ArrangedBox from '@/components/Homepage/ArrangedBox';
+import ArrangedBox from '@/components/ArrangedBox';
 
 // util
 import { onPreview } from '@/utils';
@@ -23,9 +23,15 @@ interface PhotoBoxProps {
   classification: cls;
   title: clsValue;
   rand: number;
+  onClick: () => void;
 }
 
-const PhotoBox: React.FC<PhotoBoxProps> = ({ classification, title, rand }) => {
+const PhotoBox: React.FC<PhotoBoxProps> = ({
+  classification,
+  title,
+  rand,
+  onClick,
+}) => {
   const message = useGlobalMessage();
   const [photos, setPhotos] = useState<React.ReactNode[]>([]);
   const [randPhoto, setRandPhoto] = useState(img);
@@ -43,7 +49,7 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({ classification, title, rand }) => {
         page: 1,
         limit: 15,
         fields: '',
-        sort: '_id',
+        sort: '-_id',
         options: `classification=${classification}`,
       },
       (res) => {
@@ -74,7 +80,10 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({ classification, title, rand }) => {
   }, []);
   return (
     <div className={`${style.photosBox} clearfix`}>
-      <div className={style.title}>{title}</div>
+      <div className={style.title}>
+        <div>{title}</div>
+        <div onClick={onClick}>查看更多{'>>'}</div>
+      </div>
       <div className={`${style.photos} clearfix`}>
         {photos.length ? (
           <>
