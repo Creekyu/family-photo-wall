@@ -30,8 +30,17 @@ const LinkBtn: React.FC<LinkBtnProps> = ({ seq, children }) => {
           case 1:
             navigate('/timeline');
             break;
-          default:
-            navigate('/class');
+          case 2:
+            navigate('/class', { state: { classification: 'memory' } });
+            break;
+          case 3:
+            navigate('/class', { state: { classification: 'bigEvent' } });
+            break;
+          case 4:
+            navigate('/class', { state: { classification: 'now' } });
+            break;
+          case 5:
+            navigate('/class', { state: { classification: 'others' } });
             break;
         }
       }}

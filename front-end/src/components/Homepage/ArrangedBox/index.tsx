@@ -41,15 +41,15 @@ const ArrangedBox: React.FC<ArrangedBoxProps> = ({ photos }) => {
         </Col>
       </Row>
       <Row>
-        <Col span={12}>{photos[14] ? photos[14] : undefined}</Col>
+        <Col span={12}>{photos[10] ? photos[10] : undefined}</Col>
         <Col span={12}>
           <Row style={{ height: '50%' }}>
-            <Col span={12}>{photos[10] ? photos[10] : undefined}</Col>
             <Col span={12}>{photos[11] ? photos[11] : undefined}</Col>
+            <Col span={12}>{photos[12] ? photos[12] : undefined}</Col>
           </Row>
           <Row style={{ height: '50%' }}>
-            <Col span={12}>{photos[12] ? photos[12] : undefined}</Col>
             <Col span={12}>{photos[13] ? photos[13] : undefined}</Col>
+            <Col span={12}>{photos[14] ? photos[14] : undefined}</Col>
           </Row>
         </Col>
       </Row>
