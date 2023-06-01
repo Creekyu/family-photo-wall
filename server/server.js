@@ -25,7 +25,7 @@ mongoose
   });
 
 // listen
-const port = process.env.PORT || 3002; // 使用config中变量
+const port = process.env.PORT || 3003; // 使用config中变量
 const server = app.listen(port, () => {
   console.log(`server is listening at port ${port}`);
 });

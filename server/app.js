@@ -25,13 +25,13 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:3002'],
+    origin: ['http://localhost:3000', 'http://47.108.73.126:3003'],
   })
 );
 app.options('*', cors());
 
 // Set security HTTP headers
-app.use(helmet());
+// app.use(helmet());
 // app.use(
 //   helmet({
 //     // 解决解决NotSameOriginAfterDefaultedToSameOriginByCoep问题
@@ -42,13 +42,9 @@ app.use(helmet());
 //           "'self'",
 //           'data:',
 //           'blob:',
-//           'criik-blog-image-storage.oss-cn-chengdu.aliyuncs.com',
+//           'family-photo-wall.oss-cn-chengdu.aliyuncs.com',
 //         ],
-//         'connect-src': [
-//           "'self'",
-//           'https://www.criiky0.top',
-//           'https://api.itapi.cn/api/badword/',
-//         ],
+//         'connect-src': ["'self'", 'http://47.108.73.126:3003'],
 //       },
 //     },
 //   })
@@ -98,7 +94,7 @@ app.use(
     saveUninitialized: true,
     rolling: true, //在每次请求时强行设置 cookie，这将重置cookie过期时间（默认：false）
     store: MongoStore.create({
-      mongoUrl: 'mongodb://criiky1:123456@127.0.0.1:27017/family-photo-wall', //数据库的地址
+      mongoUrl: process.env.DATABASE_LOCAL, //数据库的地址
       ttl: 10 * 60,
     }),
     // 设置发送给前端的cookie属性

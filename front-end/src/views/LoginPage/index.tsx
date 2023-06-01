@@ -13,7 +13,6 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // api
 import { userApi } from '@/api/users';
-// import { OSSApi } from '@/api/OSS';
 
 // interface
 import { LoginFormObj } from '@/interface/userApi';
@@ -45,8 +44,8 @@ const LoginForm = () => {
         delete user['_id'];
         // 设置cookie持续时间90天
         const expires = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
-        cookies.set('user', user, { expires });
-        cookies.set('token', data.token, { expires });
+        cookies.set('user', user, { path: '/', expires });
+        cookies.set('token', data.token, { path: '/', expires });
         dispatch(setIsLogin(true));
         // 跳转
         navigate('/manage/add');
