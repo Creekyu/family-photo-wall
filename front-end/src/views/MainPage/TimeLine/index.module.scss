@@ -10,14 +10,19 @@
   .content {
     width: $MAX_WIDTH;
     background: #FFF;
-    padding:{
-      bottom: 0;
-      top:50px;
-      left:50px;
-      right:50px;
-    }
     box-sizing: border-box;
     margin-bottom: 50px;
+    padding: {
+      bottom: 0;
+      top: 50px;
+      left: 50px;
+      right: 50px;
+    }
+
+
+    > ul, > div:not(:first-child) {
+      animation: showAnime 2s;
+    }
 
     .year {
       color: $FONT_COLOR;
@@ -36,8 +41,6 @@
     }
 
     .itemWrapper {
-      width: 480px;
-      height: 270px;
       cursor: pointer;
       transition: all .3s;
 
@@ -53,7 +56,7 @@
     }
 
     .load {
-      padding:20px 0;
+      padding: 20px 0;
       @include unSelectable;
       cursor: pointer;
       display: flex;
@@ -62,11 +65,13 @@
       border: {
         radius: 5px;
       };
-      &:hover{
-        background: rgba(0,0,0,.1);
+
+      &:hover {
+        background: rgba(0, 0, 0, .1);
       }
-      > span:first-child{
-        font-size:18px;
+
+      > span:first-child {
+        font-size: 18px;
       }
     }
   }

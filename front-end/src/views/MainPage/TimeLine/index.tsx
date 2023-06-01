@@ -30,6 +30,7 @@ import { onPreview } from '@/utils';
 
 // comp
 import TopDisplay from '@/components/TopDisplay';
+import LoadingComp from '@/components/LoadingComp';
 
 // 生成带年份分类的时间轴对象
 const generateTimeLine = (timeline: ImgObj[]) => {
@@ -90,7 +91,7 @@ const TimeLine = () => {
   const message = useGlobalMessage();
   const [photos, setPhotos] = useState<ImgObj[]>([]);
   const [page, setPage] = useState(1);
-
+  const [loading, setLoading] = useState(true);
   const handleClick = () => {
     getPhotos(
       {
@@ -117,6 +118,9 @@ const TimeLine = () => {
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     dispatch(setChosen(1));
   }, []);
 
@@ -141,10 +145,13 @@ const TimeLine = () => {
     <div className={`${style.wrapper} clearfix`}>
       <TopDisplay img={img}></TopDisplay>
       <div className={style.content}>
-        <Timeline mode="alternate" items={generateTimeLine(photos)} />
-        <div className={style.load} onClick={handleClick}>
-          <span className="iconfont">&#xe7ef;</span>&nbsp;
-          <span>加载更多</span>
+        <LoadingComp loading={loading}></LoadingComp>
+        <div className={loading ? 'loading-active' : 'loading-not-active'}>
+          <Timeline mode="alternate" items={generateTimeLine(photos)} />
+          <div className={style.load} onClick={handleClick}>
+            <span className="iconfont">&#xe7ef;</span>&nbsp;
+            <span>加载更多</span>
+          </div>
         </div>
       </div>
     </div>

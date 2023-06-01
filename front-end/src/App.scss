@@ -9,3 +9,11 @@
   display: table;
   clear: both;
 }
+
+.loading-active{
+  display: none;
+}
+
+.loading-not-active{
+  display: block;
+}

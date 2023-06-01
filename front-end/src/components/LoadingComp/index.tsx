@@ -16,12 +16,17 @@ const antIcon = <LoadingOutlined style={{ fontSize: '50px' }} spin />;
 interface LoadingCompProps {
   styles?: CSSProperties;
   changeImg?: boolean;
+  loading: boolean;
 }
 
-const LoadingComp: React.FC<LoadingCompProps> = ({ styles, changeImg }) => {
+const LoadingComp: React.FC<LoadingCompProps> = ({
+  loading,
+  styles,
+  changeImg,
+}) => {
   const img = changeImg ? img2 : img1;
   return (
-    <div className={style.wrapper} style={styles}>
+    <div className={loading ? style.wrapper : style.noLoading} style={styles}>
       <div
         className={style.photo}
         style={{ backgroundImage: `url(${img})` }}

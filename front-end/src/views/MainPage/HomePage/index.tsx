@@ -41,10 +41,8 @@ const HomePage = () => {
     <div className={style.wrapper}>
       <TopDisplay img={img}></TopDisplay>
       <div className={`${style.content} clearfix`}>
-        <div className={loading ? undefined : style.noLoading}>
-          <LoadingComp></LoadingComp>
-        </div>
-        <div className={loading ? style.noActive : style.active}>
+        <LoadingComp loading={loading}></LoadingComp>
+        <div className={loading ? 'loading-active' : 'loading-not-active'}>
           {menu.map((item, index) => {
             return (
               <PhotoBox

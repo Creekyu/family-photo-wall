@@ -20,6 +20,10 @@
       radius: 5px;
     };
 
+    > div:not(:first-child){
+      animation: showAnime .5s;
+    }
+
     .title {
       @include unSelectable;
       text-align: center;

@@ -27,6 +27,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // redux
 import { useAppDispatch } from '@/redux';
 import { setChosen } from '@/redux/slice/universal';
+import LoadingComp from '@/components/LoadingComp';
 
 const PhotoWall = () => {
   const {
@@ -36,6 +37,7 @@ const PhotoWall = () => {
   const message = useGlobalMessage();
   const [photos, setPhotos] = useState<React.ReactNode[][]>([[]]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const handleClick = () => {
     getPhotos(
@@ -83,6 +85,9 @@ const PhotoWall = () => {
   };
 
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
     switch (classification) {
       case 'memory':
         dispatch(setChosen(2));
@@ -135,30 +140,40 @@ const PhotoWall = () => {
       }
     );
   }, [classification]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, [classification]);
   return (
     <div className={style.wrapper}>
       <TopDisplay img={img}></TopDisplay>
       <div className={style.content}>
-        <div className={style.title}>{ClsEnum[classification as cls]}</div>
-        <div className={style.photos}>
-          {photos[0].length
-            ? photos.map((photoList, index) => {
-                return (
-                  <ArrangedBox photos={photoList} key={index}></ArrangedBox>
-                );
-              })
-            : undefined}
-          {photos[0].length ? undefined : (
-            <div
-              className={style.noPhoto}
-              style={{ backgroundImage: `url(${img1})` }}
-            >
-              <div>当前分类暂时没有照片~</div>
-            </div>
-          )}
-        </div>
-        <div className={style.load} onClick={handleClick}>
-          加载更多
+        <LoadingComp loading={loading} changeImg></LoadingComp>
+        <div className={loading ? 'loading-active' : 'loading-not-active'}>
+          <div className={style.title}>{ClsEnum[classification as cls]}</div>
+          <div className={style.photos}>
+            {photos[0].length
+              ? photos.map((photoList, index) => {
+                  return (
+                    <ArrangedBox photos={photoList} key={index}></ArrangedBox>
+                  );
+                })
+              : undefined}
+            {photos[0].length ? undefined : (
+              <div
+                className={style.noPhoto}
+                style={{ backgroundImage: `url(${img1})` }}
+              >
+                <div>当前分类暂时没有照片~</div>
+              </div>
+            )}
+          </div>
+          <div className={style.load} onClick={handleClick}>
+            加载更多
+          </div>
         </div>
       </div>
     </div>
