@@ -66,13 +66,10 @@ const PhotoWall = () => {
                 onClick={() => {
                   onPreview(photo.url + photo.filename);
                 }}
-              >
-                <img
-                  src={photo.url + photo.filename}
-                  alt="photo"
-                  className={style.img}
-                />
-              </div>
+                style={{
+                  backgroundImage: `url(${photo.url + photo.filename})`,
+                }}
+              ></div>
             );
           }),
         ]);
@@ -124,13 +121,10 @@ const PhotoWall = () => {
                 onClick={() => {
                   onPreview(photo.url + photo.filename);
                 }}
-              >
-                <img
-                  src={photo.url + photo.filename}
-                  alt="photo"
-                  className={style.img}
-                />
-              </div>
+                style={{
+                  backgroundImage: `url(${photo.url + photo.filename})`,
+                }}
+              ></div>
             );
           }),
         ]);

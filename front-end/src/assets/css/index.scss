@@ -40,13 +40,12 @@ $MAX_WIDTH: 1100px;
   width: 100%;
   height: 100%;
   transition: all .3s;
+  background: {
+    size: cover;
+    repeat: no-repeat;
+  };
 
   &:hover {
     @include onHover;
-  }
-
-  .img {
-    width: 100%;
-    height: 100%;
   }
 }
