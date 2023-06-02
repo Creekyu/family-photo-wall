@@ -1,0 +1,93 @@
+@import "@/assets/css/index.scss";
+
+
+@mixin universal() {
+  .footer {
+    height: 50px;
+    background-color: #FFF;
+    @include unSelectable;
+    display: flex;
+    justify-content: space-evenly;
+
+    a {
+      color: $THEME_COLOR;
+      display: block;
+      text-decoration: none;
+    }
+
+    .PSIC {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .ICIcon {
+        background: {
+          repeat: no-repeat;
+          size: cover;
+        };
+      }
+    }
+
+    .line {
+      padding: 0 5px;
+    }
+  }
+}
+
+@media (max-width: $BREAK_POINT) {
+  @include universal;
+  .ICIcon {
+    width: 15px;
+    height: 15px;
+  }
+
+  .line {
+    display: none;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .ICInfo {
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .protocol {
+      font-size: 12px;
+    }
+  }
+}
+
+@media (min-width: $BREAK_POINT) {
+  @include universal;
+  .ICInfo {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-size: 16px;
+
+
+    .ICIcon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .ICP {
+      display: block;
+      cursor: pointer;
+    }
+  }
+
+  .protocol {
+    font-size: 16px;
+    align-self: center;
+  }
+}

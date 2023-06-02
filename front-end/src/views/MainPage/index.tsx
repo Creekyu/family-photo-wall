@@ -3,6 +3,7 @@ import { Outlet } from 'react-router';
 
 // comp
 import TopHeader from '@/components/TopHeader';
+import Footer from '@/components/Footer';
 
 // redux
 import { generateRandList } from '@/redux/slice/universal';
@@ -15,10 +16,13 @@ const MainPage = () => {
     dispatch(generateRandList());
   }, []);
   return (
-    <div className="clearfix">
-      <TopHeader></TopHeader>
-      <Outlet></Outlet>
-    </div>
+    <>
+      <div className="clearfix" style={{ minHeight: '100vh' }}>
+        <TopHeader></TopHeader>
+        <Outlet></Outlet>
+      </div>
+      <Footer></Footer>
+    </>
   );
 };
 
