@@ -12,12 +12,6 @@
       box-sizing: border-box;
       background-color: #FFF;
       margin-bottom: 50px;
-      padding:{
-        top:0;
-        left:30px;
-        right:30px;
-        bottom: 30px;;
-      }
       border: {
         radius: 5px;
       };
@@ -29,6 +23,12 @@
   @include universal;
   .content {
     width: $MAX_WIDTH;
+    padding:{
+      top:0;
+      left:30px;
+      right:30px;
+      bottom: 30px;;
+    }
   }
 }
 
@@ -38,6 +38,12 @@
     padding:0 10px;
     .content{
       width: 100%;
+      padding:{
+        top:0;
+        left:15px;
+        right:15px;
+        bottom: 30px;;
+      }
     }
   }
 }

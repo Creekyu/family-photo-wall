@@ -64,7 +64,11 @@ const generateTimeLine = (timeline: ImgObj[]) => {
               onPreview(item.url + item.filename);
             }}
           >
-            <img src={item.url + item.filename} alt="photo" />
+            <img
+              src={item.url + item.filename}
+              alt="photo"
+              style={{ display: 'block' }}
+            />
           </div>
         ),
         color: 'gray',

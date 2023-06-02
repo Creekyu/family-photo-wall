@@ -98,7 +98,7 @@
 @media (width<=$BREAK_POINT) {
   @include universal;
   .wrapper{
-    padding: 0 20px;
+    padding: 0 10px;
     .content{
       width: 100%;
       padding: {
