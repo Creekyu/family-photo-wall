@@ -55,10 +55,6 @@ const router: Routes[] = [
     ],
   },
   {
-    path: '/test',
-    element: lazy(() => import('@/views/TestPage')),
-  },
-  {
     path: '*',
     element: lazy(() => import('@/components/ErrorPage/Page404')),
   },
