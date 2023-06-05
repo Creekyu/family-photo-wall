@@ -24,6 +24,8 @@ import { setSelectedKey } from '@/redux/slice/universal';
 // api
 import { getOSSPolicy } from '@/api/OSS';
 import { addPhotos } from '@/api/images';
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+import { BREAK_POINT } from '@/global';
 
 interface OSSDataType {
   dir: string;
@@ -48,6 +50,7 @@ const AliyunOSSUpload = ({
   time,
 }: AliyunOSSUploadProps) => {
   const message = useGlobalMessage();
+  const { width } = useViewport();
   const [OSSData, setOSSData] = useState<OSSDataType>();
   const [uploadList, setUploadList] = useState<string[]>([]);
 
@@ -207,7 +210,11 @@ const AliyunOSSUpload = ({
   };
 
   return (
-    <Dragger {...uploadProps} listType="picture" height={300}>
+    <Dragger
+      {...uploadProps}
+      listType="picture"
+      height={width > BREAK_POINT ? 300 : 200}
+    >
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>

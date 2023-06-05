@@ -5,7 +5,11 @@ import './App.scss';
 
 function App() {
   const element = useRoutes(routes);
-  return <div id="app">{element}</div>;
+  return (
+    <div id="app" style={{ height: '100%' }}>
+      {element}
+    </div>
+  );
 }
 
 export default App;

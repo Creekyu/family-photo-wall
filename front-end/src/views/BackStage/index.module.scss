@@ -1,41 +1,52 @@
 @import "@/assets/css/index.scss";
-.wrapper{
-  height: 100vh;
-  .logo{
-    width: 80%;
-    height: 45px;
-    line-height: 45px;
-    background-color: #334454;
-    margin:20px auto;
-    color:#FFF;
-    font-size: 24px;
-    text-align: center;
-    overflow: hidden;
-    border: {
-      radius: 5px;
-    };
-  }
 
-  .logOut{
-    cursor: pointer;
-    float:right;
-    padding-right:20px;
-    transition: all .3s;
-    &:hover{
-      color:$THEME_COLOR;
+@mixin universal() {
+  .wrapper {
+    height: 100vh;
+
+    .logo {
+      width: 80%;
+      height: 45px;
+      line-height: 45px;
+      background-color: #334454;
+      margin: 20px auto;
+      color: #FFF;
+      font-size: 24px;
+      text-align: center;
+      overflow: hidden;
+      border: {
+        radius: 5px;
+      };
+    }
+
+    .logOut {
+      cursor: pointer;
+      float: right;
+      padding-right: 20px;
+      transition: all .3s;
+
+      &:hover {
+        color: $THEME_COLOR;
+      }
+    }
+
+    .back {
+      float: right;
+      padding-right: 20px;
     }
   }
+}
 
-  .back{
-    float:right;
-    padding-right:20px;
-  }
-
-  .content{
-    margin:24px 16px;
+@media (width > $BREAK_POINT) {
+  @include universal;
+  .content {
+    margin: 24px 16px;
     padding: 24px;
     min-height: 280px;
     overflow-y: auto;
   }
 }
 
+@media (width<=$BREAK_POINT) {
+  @include universal;
+}
