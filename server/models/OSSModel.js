@@ -42,8 +42,8 @@ OSSSchema.statics.getInstance = async function () {
   if (!instance) {
     instance = new this({
       region: 'oss-cn-chengdu',
-      accessKeyId: 'LTAI5t95qXkpmNHV8hc78NKW',
-      accessKeySecret: 'IX9GgRnlRA3PYUPiPD1MVnsxfWc64E',
+      accessKeyId: 'LTAI5t95qXkpmNHV8hc78NKW', // 示例
+      accessKeySecret: 'IX9GgRnlRA3PYUPiPD1MVnsxfWc64E', // 示例
       bucket: 'init-bucket',
       callbackUrl: '',
       dir: '',

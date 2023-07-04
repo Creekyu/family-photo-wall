@@ -1,6 +1,7 @@
 const OSSModel = require('../models/OSSModel');
 const OSS = require('ali-oss');
 
+// 获取OSSClient
 const getOSSClient = async () => {
   const res = await OSSModel.getInstance();
   const { region, accessKeyId, accessKeySecret, bucket } = res;
@@ -13,6 +14,7 @@ const getOSSClient = async () => {
   return Promise.resolve(client);
 };
 
+// 获取OSSConfig
 const getOSSConfig = async () => {
   const res = await OSSModel.getInstance();
   const { accessKeyId, accessKeySecret, bucket, callbackUrl, dir } = res;
