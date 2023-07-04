@@ -16,8 +16,6 @@ import { getOSSObject, setOSSObject } from '@/api/OSS';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
-import { Simulate } from 'react-dom/test-utils';
-import error = Simulate.error;
 
 const EditOSS = () => {
   const dispatch = useAppDispatch();
