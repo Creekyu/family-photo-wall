@@ -1,14 +1,16 @@
 const nodemailer = require('nodemailer');
+const Email = require('../models/emailModel');
 
 const sendEmail = async (options) => {
+  const smtp = Email.getInstance();
   // 1) Create a transporter
   // 使用邮件发送代理
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
+    host: smtp.host,
+    port: smtp.port,
     auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
+      user: smtp.email,
+      pass: smtp.password,
     },
   });
 

@@ -56,6 +56,10 @@ const router: Routes[] = [
         path: 'oss',
         element: lazy(() => import('@/views/BackStage/EditOSS')),
       },
+      {
+        path: 'smtp',
+        element: lazy(() => import('@/views/BackStage/EditSMTP')),
+      },
     ],
   },
   {

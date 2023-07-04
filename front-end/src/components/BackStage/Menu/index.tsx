@@ -10,6 +10,7 @@ import {
   PushpinOutlined,
   FolderOutlined,
   CloudDownloadOutlined,
+  MailOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -42,6 +43,7 @@ const items: MenuItem[] = [
     getItem('其他', 'others', <FolderOutlined />),
   ]),
   getItem('OSS设置', 'oss', <CloudDownloadOutlined />),
+  getItem('SMTP设置', 'smtp', <MailOutlined />),
 ];
 
 const BackStageMenu = () => {

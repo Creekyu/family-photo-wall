@@ -18,6 +18,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const OSSPolicyRoutes = require('./routes/OSSPolicyRoutes');
 const imagesRoutes = require('./routes/imagesRoutes');
+const emailRoutes = require('./routes/emailRoutes');
 
 const app = express();
 
@@ -111,6 +112,7 @@ app.use(
 app.use('/api/users', userRouter);
 app.use('/api/policy', OSSPolicyRoutes);
 app.use('/api/images', imagesRoutes);
+app.use('/api/email', emailRoutes);
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));

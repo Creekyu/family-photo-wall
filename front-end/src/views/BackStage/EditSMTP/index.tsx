@@ -11,8 +11,8 @@ import { useAppDispatch } from '@/redux';
 import { setSelectedKey } from '@/redux/slice/universal';
 
 // api
-import { OSSConfig } from '@/interface/OSSApi';
-import { getOSSObject, setOSSObject } from '@/api/OSS';
+import { SMTPConfig } from '@/interface/emailApi';
+import { getSMTPConfig, setSMTPConfig } from '@/api/email';
 
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
@@ -20,15 +20,16 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 const EditOSS = () => {
   const dispatch = useAppDispatch();
   const msg = useGlobalMessage();
-  const [config, setConfig] = useState<OSSConfig>();
+  const [config, setConfig] = useState<SMTPConfig>();
   const [loading, setLoading] = useState(true);
   const [form] = Form.useForm();
   useEffect(() => {
-    dispatch(setSelectedKey('oss'));
-    getOSSObject(
+    dispatch(setSelectedKey('smtp'));
+    getSMTPConfig(
       '',
       (res) => {
-        setConfig(res.data.OSSObject[0]);
+        console.log(res.data);
+        setConfig(res.data.smtp);
       },
       (err) => {
         msg.error(err);
@@ -52,13 +53,13 @@ const EditOSS = () => {
             colon={false}
             className={style.form}
             initialValues={{
-              accessKeyId: config?.accessKeyId,
-              accessKeySecret: config?.accessKeySecret,
-              bucket: config?.bucket,
-              region: config?.region,
+              email: config?.email,
+              password: config?.password,
+              host: config?.host,
+              port: config?.port,
             }}
             onFinish={(values) => {
-              setOSSObject(
+              setSMTPConfig(
                 values,
                 () => {
                   msg.loadingSuccessAsync('保存中...', '保存成功!');
@@ -69,33 +70,21 @@ const EditOSS = () => {
               );
             }}
           >
-            <Form.Item
-              label="AccessKeyId"
-              name="accessKeyId"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="设定 AccessKeyId" />
+            <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+              <Input placeholder="设定 Email" />
             </Form.Item>
             <Form.Item
-              label="AccessKeySecret"
-              name="accessKeySecret"
+              label="Password"
+              name="password"
               rules={[{ required: true }]}
             >
-              <Input placeholder="设定 AccessKeySecret" type="password" />
+              <Input placeholder="设定 Password" type="password" />
             </Form.Item>
-            <Form.Item
-              label="Bucket"
-              name="bucket"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="设定 Bucket" />
+            <Form.Item label="Host" name="host" rules={[{ required: true }]}>
+              <Input placeholder="设定 Host" />
             </Form.Item>
-            <Form.Item
-              label="Region"
-              name="region"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="设定 Region" />
+            <Form.Item label="Port" name="port" rules={[{ required: true }]}>
+              <Input placeholder="设定 port" />
             </Form.Item>
             <Form.Item label=" ">
               <Button type="primary" htmlType="submit">
@@ -107,10 +96,10 @@ const EditOSS = () => {
                 danger
                 onClick={() => {
                   form.setFieldsValue({
-                    accessKeyId: '',
-                    accessKeySecret: '',
-                    bucket: '',
-                    region: '',
+                    email: '',
+                    password: '',
+                    host: '',
+                    port: '',
                   });
                 }}
               >
