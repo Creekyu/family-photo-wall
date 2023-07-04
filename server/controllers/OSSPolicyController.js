@@ -1,19 +1,44 @@
 const moment = require('moment');
 const { Buffer } = require('buffer');
-const OSS = require('ali-oss');
+const catchAsync = require('../utils/catchAsync');
+const OSSClient = require('../utils/OSSClient');
+const OSSModel = require('../models/OSSModel');
 
-// TODO:这里的Token上传github记得去掉
-const config = {
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  accessKeySecret: process.env.ACCESS_KEY_SECRET,
-  bucket: process.env.BUCKET,
-  callbackUrl: '',
-  dir: '',
-};
+exports.setConfig = catchAsync(async (req, res) => {
+  const { region, accessKeyId, accessKeySecret, bucket, callbackUrl, dir } =
+    req.body;
+  const OSSObject = await OSSModel.findOneAndUpdate({
+    region,
+    accessKeyId,
+    accessKeySecret,
+    bucket,
+    callbackUrl,
+    dir,
+    isUsed: true,
+  });
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      OSSObject,
+    },
+  });
+});
+
+exports.getConfig = catchAsync(async (req, res) => {
+  const OSSObject = await OSSModel.find();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      OSSObject,
+    },
+  });
+});
 
 exports.getPolicy = async (req, res) => {
-  const client = new OSS(config);
-
+  const client = await OSSClient.getOSSClient();
+  const config = await OSSClient.getOSSConfig();
   const date = new Date();
   date.setDate(date.getDate() + 1);
   const policy = {
