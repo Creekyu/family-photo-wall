@@ -9,6 +9,7 @@ import {
   FieldTimeOutlined,
   PushpinOutlined,
   FolderOutlined,
+  CloudDownloadOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -40,6 +41,7 @@ const items: MenuItem[] = [
     getItem('往事回忆', 'memory', <FieldTimeOutlined />),
     getItem('其他', 'others', <FolderOutlined />),
   ]),
+  getItem('OSS设置', 'oss', <CloudDownloadOutlined />),
 ];
 
 const BackStageMenu = () => {
@@ -53,8 +55,9 @@ const BackStageMenu = () => {
       mode="inline"
       items={items}
       onClick={(e) => {
-        if (e.key === 'add') navigate(`/manage/${e.key}`);
-        else navigate(`/manage/edit`, { state: e.key });
+        if (['now', 'bigEvent', 'memory', 'others'].includes(e.key))
+          navigate(`/manage/edit`, { state: e.key });
+        else navigate(`/manage/${e.key}`);
       }}
     />
   );

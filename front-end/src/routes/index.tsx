@@ -52,6 +52,10 @@ const router: Routes[] = [
           },
         ],
       },
+      {
+        path: 'oss',
+        element: lazy(() => import('@/views/BackStage/EditOSS')),
+      },
     ],
   },
   {

@@ -12,8 +12,8 @@ exports.setConfig = catchAsync(async (req, res) => {
     accessKeyId,
     accessKeySecret,
     bucket,
-    callbackUrl,
-    dir,
+    callbackUrl: callbackUrl || '',
+    dir: dir || '',
     isUsed: true,
   });
 
