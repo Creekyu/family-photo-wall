@@ -10,10 +10,10 @@ export const catchAsync =
     // success error分别指定success和error的回调
 
     fn(values)
-      .then((response: any) => {
-        if (success) success(response.data);
+      .then((response?: any) => {
+        if (success) success(response ? response.data : null);
         return new Promise(() => {
-          // pass
+          // 终止调用链
         });
       })
       .catch((err: any) => {

@@ -53,6 +53,10 @@ const router: Routes[] = [
         ],
       },
       {
+        path: 'user',
+        element: lazy(() => import('@/views/BackStage/EditUser')),
+      },
+      {
         path: 'oss',
         element: lazy(() => import('@/views/BackStage/EditOSS')),
       },

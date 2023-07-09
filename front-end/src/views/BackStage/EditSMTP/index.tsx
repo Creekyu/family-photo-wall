@@ -62,7 +62,7 @@ const EditOSS = () => {
               setSMTPConfig(
                 values,
                 () => {
-                  msg.loadingSuccessAsync('保存中...', '保存成功!');
+                  msg.loadingAsync('保存中...', '保存成功!');
                 },
                 (err) => {
                   msg.error(err);

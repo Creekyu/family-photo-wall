@@ -11,6 +11,7 @@ import {
   FolderOutlined,
   CloudDownloadOutlined,
   MailOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -42,6 +43,7 @@ const items: MenuItem[] = [
     getItem('往事回忆', 'memory', <FieldTimeOutlined />),
     getItem('其他', 'others', <FolderOutlined />),
   ]),
+  getItem('用户管理', 'user', <UserOutlined />),
   getItem('OSS设置', 'oss', <CloudDownloadOutlined />),
   getItem('SMTP设置', 'smtp', <MailOutlined />),
 ];

@@ -139,10 +139,7 @@ const EditCertain = () => {
                       delSingle(
                         filename,
                         async () => {
-                          await message.loadingSuccessAsync(
-                            '删除中...',
-                            '删除成功!'
-                          );
+                          await message.loadingAsync('删除中...', '删除成功!');
                           navigate(0);
                         },
                         (content) => {
@@ -233,10 +230,7 @@ const EditCertain = () => {
                 updateImg(
                   { fileList: selectedList, classification: selValue },
                   async () => {
-                    await message.loadingSuccessAsync(
-                      '修改中...',
-                      '修改成功！'
-                    );
+                    await message.loadingAsync('修改中...', '修改成功！');
                     navigate(0);
                   },
                   (content) => {
@@ -259,7 +253,7 @@ const EditCertain = () => {
               content: '确定要删除这些照片吗？',
               onOk: () => {
                 delMany(selectedList, async () => {
-                  await message.loadingSuccessAsync('删除中...', '删除成功！');
+                  await message.loadingAsync('删除中...', '删除成功！');
                   navigate(0);
                 });
               },
