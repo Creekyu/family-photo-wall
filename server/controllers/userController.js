@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj');
 const Image = require('../models/imgModel');
+const AppError = require('../utils/appError');
 
 // 用于对已经登录的用户刷新其状态
 exports.updateLoginState = catchAsync(async (req, res) => {
@@ -47,12 +48,12 @@ exports.getAllUsers = catchAsync(async (req, res) => {
 });
 
 exports.addUser = catchAsync(async (req, res) => {
-  const { name, email, password, passwordConfirm, role } = req.body;
+  const { name, email, role } = req.body;
   let user = await User.create({
     name,
     email,
-    password,
-    passwordConfirm,
+    password: '123456',
+    passwordConfirm: '123456',
     role,
   });
 
@@ -76,7 +77,7 @@ exports.delUser = catchAsync(async (req, res) => {
 });
 
 exports.updateUser = catchAsync(async (req, res) => {
-  const filteredBody = filterObj(req.body.updateForm, 'name', 'email', 'role');
+  const filteredBody = filterObj(req.body, 'name', 'email', 'role');
   const updatedUser = await User.findByIdAndUpdate(
     req.params.id,
     filteredBody,
@@ -91,5 +92,27 @@ exports.updateUser = catchAsync(async (req, res) => {
     data: {
       updatedUser,
     },
+  });
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id).select('+password');
+
+  // 验证旧密码是否匹配
+  if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
+    return next(new AppError('旧密码输入错误，请重新输入！', 401));
+  }
+
+  if (req.body.password !== req.body.passwordConfirm) {
+    return next(new AppError('两次输入密码不一致，请重新输入！', 401));
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: null,
   });
 });

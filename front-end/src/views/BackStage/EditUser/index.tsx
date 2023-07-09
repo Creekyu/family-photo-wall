@@ -1,8 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 
+// css
+import style from './index.module.scss';
+
 // antd
-import { Button, Table, Tag } from 'antd';
+import { Button, Table, Tag, Modal, Form, Input, Select, Badge } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 
 // interface
@@ -32,6 +36,7 @@ const EditUser: React.FC = () => {
   const modal = useGlobalModal();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
   const [users, setUsers] = useState<DataType[]>();
 
   // 列表格式
@@ -117,6 +122,95 @@ const EditUser: React.FC = () => {
   }, []);
   return (
     <>
+      <Button
+        size="large"
+        icon={<PlusOutlined />}
+        style={{ paddingLeft: '30px', paddingRight: '50px', marginBottom: 20 }}
+        onClick={() => {
+          setOpen(true);
+        }}
+      ></Button>
+      <Modal
+        centered
+        open={open}
+        footer={null}
+        closable={false}
+        width={500}
+        onCancel={() => {
+          setOpen(false);
+        }}
+      >
+        <div className={style.tips2}>
+          <Badge color="lime"></Badge>&nbsp;注意：初始账户用户密码为123456
+        </div>
+        <div className={style.tips}>
+          <div>
+            <Badge color="lime"></Badge>&nbsp;权限说明：
+          </div>
+          <div>
+            <Badge color="rgb(45, 183, 245)"></Badge>&nbsp;root：所有权限
+          </div>
+          <div>
+            <Badge color="rgb(45, 183, 245)"></Badge>
+            &nbsp;admin：所有权限（OSS,SMTP不可更改）
+          </div>
+          <div>
+            <Badge color="rgb(45, 183, 245)"></Badge>&nbsp;user：仅编辑照片
+          </div>
+          <div>
+            <Badge color="rgb(45, 183, 245)"></Badge>&nbsp;visitor：无权限
+          </div>
+        </div>
+
+        <Form
+          className={style.form}
+          labelCol={{ flex: '80px' }}
+          labelAlign="right"
+          labelWrap
+          colon={false}
+          onFinish={(values) => {
+            userApi.addUser(
+              values,
+              async () => {
+                await msg.loadingAsync('请稍等...', '添加成功!');
+                navigate(0);
+              },
+              (err) => {
+                msg.error(err);
+              }
+            );
+          }}
+        >
+          <Form.Item label="昵称" name="name" rules={[{ required: true }]}>
+            <Input placeholder="填写 username" />
+          </Form.Item>
+          <Form.Item label="邮箱" name="email" rules={[{ required: true }]}>
+            <Input placeholder="填写 email" />
+          </Form.Item>
+          <Form.Item
+            label="权限"
+            name="role"
+            rules={[{ required: true }]}
+            initialValue="user"
+          >
+            <Select
+              style={{ width: 120 }}
+              options={[
+                { value: 'admin', label: 'admin' },
+                { value: 'user', label: 'user' },
+                { value: 'visitor', label: 'visitor' },
+              ]}
+            />
+          </Form.Item>
+          <Form.Item>
+            <div className={style.addBtn}>
+              <Button type="primary" htmlType="submit">
+                添加
+              </Button>
+            </div>
+          </Form.Item>
+        </Form>
+      </Modal>
       <Table columns={columns} dataSource={users} />
     </>
   );

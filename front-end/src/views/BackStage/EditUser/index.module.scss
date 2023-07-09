@@ -1,0 +1,18 @@
+.form {
+  padding-top: 20px;
+}
+
+.tips, .tips2 {
+  margin-left: 40px;
+}
+
+.tips {
+  > div:not(:first-child) {
+    margin-left: 20px;
+  }
+}
+
+.addBtn {
+  display: flex;
+  justify-content: center;
+}

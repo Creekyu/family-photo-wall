@@ -1,12 +1,16 @@
 import { catchAsync } from '@/api';
+import service from '@/utils/request';
 
 // interface
-import { LoginFormObj, updateUserForm } from '@/interface/userApi';
-import service from '@/utils/request';
+import { addUserForm, LoginFormObj, updateUserForm } from '@/interface/userApi';
 
 export const userApi = {
   login: catchAsync(async (data: LoginFormObj) => {
     const response = await service.post('/api/users/login', data);
+    return Promise.resolve(response);
+  }),
+  addUser: catchAsync(async (data: addUserForm) => {
+    const response = await service.post('/api/users', data);
     return Promise.resolve(response);
   }),
   getUsers: catchAsync(async () => {

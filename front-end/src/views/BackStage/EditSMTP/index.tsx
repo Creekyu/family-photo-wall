@@ -106,7 +106,6 @@ const EditOSS = () => {
                 清除
               </Button>
             </Form.Item>
-            <Form.Item label=""></Form.Item>
           </Form>
         </div>
       )}

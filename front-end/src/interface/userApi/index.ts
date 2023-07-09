@@ -17,3 +17,9 @@ export interface updateUserForm {
   email?: string;
   role?: string;
 }
+
+export interface addUserForm {
+  name: string;
+  email: string;
+  role: string;
+}

@@ -227,24 +227,24 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 // 更新密码
-exports.updatePassword = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select('+password');
-
-  // 验证旧密码是否匹配
-  if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
-    return next(new AppError('旧密码输入错误，请重新输入！', 401));
-  }
-
-  if (req.body.password !== req.body.passwordConfirm) {
-    return next(new AppError('两次输入密码不一致，请重新输入！', 401));
-  }
-
-  user.password = req.body.password;
-  user.passwordConfirm = req.body.passwordConfirm;
-  await user.save();
-
-  createSendToken(user, 200, res);
-});
+// exports.updatePassword = catchAsync(async (req, res, next) => {
+//   const user = await User.findById(req.user.id).select('+password');
+//
+//   // 验证旧密码是否匹配
+//   if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
+//     return next(new AppError('旧密码输入错误，请重新输入！', 401));
+//   }
+//
+//   if (req.body.password !== req.body.passwordConfirm) {
+//     return next(new AppError('两次输入密码不一致，请重新输入！', 401));
+//   }
+//
+//   user.password = req.body.password;
+//   user.passwordConfirm = req.body.passwordConfirm;
+//   await user.save();
+//
+//   createSendToken(user, 200, res);
+// });
 
 // 更改邮箱发送验证码可以沿用sendCode
 exports.updateEmail = catchAsync(async (req, res, next) => {
