@@ -9,6 +9,7 @@ interface messageProviderProps {
 }
 
 export interface messageObj {
+  successAwait: (content: string) => void;
   success: (content: string) => void;
   loadingAsync: (loading: string, content: string) => void;
   error: (content: string) => void;
@@ -19,6 +20,9 @@ export interface messageObj {
 }
 
 const messageContext = createContext<messageObj>({
+  successAwait: (content) => {
+    message.success(content);
+  },
   success: (content) => {
     message.success(content);
   },
@@ -53,6 +57,15 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
     messageApi.destroy();
   };
 
+  const successAwait = async (content: string) => {
+    await messageApi.open({
+      type: 'success',
+      content,
+      duration: 0.2,
+    });
+    return Promise.resolve();
+  };
+
   const success = (content: string) => {
     messageApi.open({
       type: 'success',
@@ -84,7 +97,7 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
   const error = (content: string) => {
     messageApi.open({
       type: 'error',
-      content,
+      content: `操作失败：${content}`,
     });
   };
 
@@ -98,6 +111,7 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
   return (
     <messageContext.Provider
       value={{
+        successAwait,
         success,
         error,
         warning,
@@ -116,9 +130,18 @@ const MessageProvider: React.FC<messageProviderProps> = ({ children }) => {
 export default MessageProvider;
 
 export const useGlobalMessage = () => {
-  const { success, error, warning, loading, loadingAsync, destroy, holder } =
-    useContext(messageContext);
+  const {
+    successAwait,
+    success,
+    error,
+    warning,
+    loading,
+    loadingAsync,
+    destroy,
+    holder,
+  } = useContext(messageContext);
   return {
+    successAwait,
     success,
     error,
     warning,

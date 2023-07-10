@@ -26,7 +26,7 @@ const Footer = () => {
           rel="noreferrer"
           target="_blank"
         >
-          ICP备案
+          鄂ICP备2023007665号-2
         </a>
       </div>
       <div className={style.protocol}>Copyright © Since 2023 Criiky0</div>

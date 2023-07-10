@@ -53,7 +53,7 @@ const BackStageMenu = () => {
   const selectedKey = useAppSelector((state) => state.universal.selectedKey);
   return (
     <Menu
-      theme="dark"
+      theme="light"
       defaultOpenKeys={['edit']}
       selectedKeys={[selectedKey]}
       mode="inline"

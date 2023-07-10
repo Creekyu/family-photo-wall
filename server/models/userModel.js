@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     // 权限
     role: {
       type: String,
-      enum: ['user', 'visitor', 'admin'],
+      enum: ['user', 'visitor', 'admin', 'root'],
       default: 'user',
     },
     // 密码确认

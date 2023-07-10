@@ -77,7 +77,26 @@ exports.delUser = catchAsync(async (req, res) => {
 });
 
 exports.updateUser = catchAsync(async (req, res) => {
-  const filteredBody = filterObj(req.body, 'name', 'email', 'role');
+  const filteredBody = filterObj(req.body, 'name', 'email');
+  const updatedUser = await User.findByIdAndUpdate(
+    req.params.id,
+    filteredBody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedUser,
+    },
+  });
+});
+
+exports.updateRole = catchAsync(async (req, res) => {
+  const filteredBody = filterObj(req.body, 'role');
   const updatedUser = await User.findByIdAndUpdate(
     req.params.id,
     filteredBody,

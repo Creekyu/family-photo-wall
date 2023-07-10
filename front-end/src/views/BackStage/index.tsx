@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
 // antd
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  CodepenOutlined,
+} from '@ant-design/icons';
 import { Layout, Button, theme } from 'antd';
 
 const { Header, Sider, Content } = Layout;
@@ -54,8 +58,17 @@ const BackStage: React.FC = () => {
   };
   return (
     <Layout className={style.wrapper}>
-      <Sider trigger={null} collapsible collapsed={collapsed} width="15vw">
-        <div className={style.logo}>相片管理</div>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        width="15vw"
+        theme="light"
+      >
+        <div className={style.logo}>
+          <CodepenOutlined />
+          Manage
+        </div>
         <BackStageMenu></BackStageMenu>
       </Sider>
       <Layout>

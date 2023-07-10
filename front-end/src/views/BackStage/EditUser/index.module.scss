@@ -8,11 +8,19 @@
 
 .tips {
   > div:not(:first-child) {
-    margin-left: 20px;
+    margin-left: 10px;
   }
 }
 
 .addBtn {
   display: flex;
   justify-content: center;
+}
+
+.editBtn {
+  transition: .3s all;
+  cursor: pointer;
+  &:hover {
+    color: #5c92d1;
+  }
 }

@@ -14,9 +14,16 @@ router.post('/login', authController.login);
 // router.post('/forgotPassword', authController.forgotPassword);
 // router.patch('/resetPassword', authController.resetPassword);
 
-// 限制权限
+// 更新权限
+router.patch(
+  '/updateRole',
+  authController.protect,
+  authController.restrictTo('root')
+);
+
+// 限制
 router.use(authController.protect);
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('admin', 'root'));
 
 // 用户管理
 router.route('/').get(userController.getAllUsers).post(userController.addUser);
