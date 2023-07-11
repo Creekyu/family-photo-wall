@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { Outlet } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
@@ -26,8 +25,8 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // redux
-import { setIsLogin } from '@/redux/slice/universal';
-import { useAppDispatch } from '@/redux';
+import { delUser, setIsLogin } from '@/redux/slice/universal';
+import { useAppDispatch, useAppSelector } from '@/redux';
 
 // global
 import { BREAK_POINT } from '@/global';
@@ -35,13 +34,20 @@ import { BREAK_POINT } from '@/global';
 const BackStage: React.FC = () => {
   const { width } = useViewport();
   const [collapsed, setCollapsed] = useState(width <= BREAK_POINT);
-  const dispatch = useAppDispatch();
+  const isLogin = useAppSelector((state) => state.universal.isLogin);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const modal = useGlobalModal();
   const message = useGlobalMessage();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  // 路由守卫
+  useEffect(() => {
+    if (!isLogin) navigate('/login');
+  }, [isLogin]);
+
   const handleLogout = () => {
     modal.confirm({
       title: '提示',
@@ -52,6 +58,7 @@ const BackStage: React.FC = () => {
         cookies.remove('user');
         cookies.remove('token');
         dispatch(setIsLogin(false));
+        dispatch(delUser());
         navigate('/manage');
       },
     });

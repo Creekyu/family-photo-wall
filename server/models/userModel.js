@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     // 权限
     role: {
       type: String,
-      enum: ['user', 'visitor', 'admin', 'root'],
+      enum: ['user', 'admin', 'root'],
       default: 'user',
     },
     // 密码确认
@@ -75,6 +75,14 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+
+// 照片归属
+userSchema.virtual('images', {
+  ref: 'Image', // 关联表
+  foreignField: 'belongTo', // 外键
+  localField: '_id', // 关联属性
+});
+
 // 中间件
 userSchema.pre('save', async function (next) {
   // 修改了才进行否则next()

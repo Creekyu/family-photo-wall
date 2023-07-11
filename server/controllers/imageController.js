@@ -12,6 +12,7 @@ exports.addPhotos = catchAsync(async (req, res) => {
         filename: img.filename,
         classification: img.classification,
         photoTime: img.photoTime,
+        belongTo: req.user._id,
       };
     })
   );
@@ -37,9 +38,27 @@ exports.getPhotos = catchAsync(async (req, res) => {
   });
 });
 
+exports.getSelfPhotos = catchAsync(async (req, res) => {
+  const features = new APIFeatures(
+    Image.find({ belongTo: req.user._id }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const images = await features.query;
+  res.status(200).json({
+    status: 'success',
+    data: {
+      images,
+    },
+  });
+});
+
 exports.getCount = catchAsync(async (req, res) => {
   const { classification } = req.query;
-  const count = await Image.count({ classification });
+  const count = await Image.count({ belongTo: req.user._id, classification });
   res.status(200).json({
     status: 'success',
     data: {
@@ -52,7 +71,10 @@ exports.delSingle = catchAsync(async (req, res) => {
   const { filename } = req.body;
   const client = await OSSClient.getOSSClient();
   await client.delete(filename, { quiet: true });
-  await Image.deleteOne({ filename: req.body.filename });
+  await Image.deleteOne({
+    filename: req.body.filename,
+    belongTo: req.user._id,
+  });
   res.status(204).json({
     status: 'success',
     data: null,
@@ -64,7 +86,10 @@ exports.delMany = catchAsync(async (req, res) => {
   const client = await OSSClient.getOSSClient();
   await client.deleteMulti(fileList, { quiet: true });
   // 批量删除
-  await Image.deleteMany({ filename: { $in: fileList } });
+  await Image.deleteMany({
+    filename: { $in: fileList },
+    belongTo: req.user_id,
+  });
   res.status(204).json({
     status: 'success',
     data: null,
@@ -75,7 +100,7 @@ exports.updateClass = catchAsync(async (req, res, next) => {
   const { fileList } = req.body;
   const filteredBody = filterObj(req.body, 'classification');
   const updatedList = await Image.updateMany(
-    { filename: { $in: fileList } },
+    { filename: { $in: fileList }, belongTo: req.user._id },
     filteredBody,
     {
       new: true,

@@ -29,6 +29,10 @@ const router: Routes[] = [
     ],
   },
   {
+    path: 'login',
+    element: lazy(() => import('@/views/LoginPage')),
+  },
+  {
     path: '/manage',
     element: lazy(() => import('@/views/BackStage')),
     children: [
@@ -79,9 +83,7 @@ const syncRouter = (table: Routes[]): RouteObject[] => {
       path: route.path,
       element: (
         <Suspense fallback={<LoadingPage></LoadingPage>}>
-          <AuthRoute>
-            <route.element />
-          </AuthRoute>
+          <route.element />
         </Suspense>
       ),
       children: route.children && syncRouter(route.children),

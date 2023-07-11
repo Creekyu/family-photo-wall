@@ -20,7 +20,7 @@ import {
   delMany,
   delSingle,
   getCount,
-  getPhotos,
+  getSelfPhotos,
   updateImg,
 } from '@/api/images';
 
@@ -168,7 +168,7 @@ const EditCertain = () => {
 
   // 请求对应的数据
   useEffect(() => {
-    getPhotos(
+    getSelfPhotos(
       {
         page: page ? page : 1,
         limit: 6,

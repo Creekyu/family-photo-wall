@@ -14,8 +14,8 @@ router.use(
   authController.protect,
   authController.restrictTo('admin', 'root', 'user')
 );
-// policy
 router.get('/getConfig', OSSPolicyController.getConfig);
+// policy
 
 router.get('/', OSSPolicyController.getPolicy);
 router.post('/result', OSSPolicyController.getResult);

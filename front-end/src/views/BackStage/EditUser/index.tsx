@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import Cookies from 'universal-cookie';
 
 // css
 import style from './index.module.scss';
@@ -21,7 +20,7 @@ import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 
 // interface
-import { userObj } from '@/interface/userApi';
+import { loginUser, userObj } from '@/interface/userApi';
 
 // api
 import { userApi } from '@/api/users';
@@ -32,7 +31,7 @@ import { useGlobalModal } from '@/components/ContextProvider/ModalProvider';
 import { setSelectedKey } from '@/redux/slice/universal';
 
 // redux
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 
 interface DataType {
   key: string;
@@ -75,7 +74,6 @@ const roleList = [
   { value: 'root', label: 'root' },
   { value: 'admin', label: 'admin' },
   { value: 'user', label: 'user' },
-  { value: 'visitor', label: 'visitor' },
 ];
 
 const EditUser: React.FC = () => {
@@ -92,11 +90,7 @@ const EditUser: React.FC = () => {
   const [isRoleEdit, setIsRoleEdit] = useState(false);
   const [cur, setCur] = useState(0);
 
-  // cookies
-  const cookies = new Cookies();
-  const user = cookies.get('user');
-
-  //
+  const user = useAppSelector((state) => state.universal.user) as loginUser;
 
   // 列表格式
   const columns: ColumnsType<DataType> = useMemo(() => {
@@ -216,10 +210,8 @@ const EditUser: React.FC = () => {
                     <Tag color="purple">{role.toUpperCase()}</Tag>
                   ) : role === 'admin' ? (
                     <Tag color="error">{role.toUpperCase()}</Tag>
-                  ) : role === 'user' ? (
-                    <Tag color="blue">{role.toUpperCase()}</Tag>
                   ) : (
-                    <Tag color="success">{role.toUpperCase()}</Tag>
+                    <Tag color="blue">{role.toUpperCase()}</Tag>
                   )}
                   {user.id === record.id ? null : user.role === 'root' ? (
                     <EditBtn
@@ -274,6 +266,11 @@ const EditUser: React.FC = () => {
   }, [isNameEdit, isEmailEdit, isRoleEdit]);
 
   useEffect(() => {
+    // // 路由守卫
+    if (user.role !== 'admin' && user.role !== 'root') {
+      navigate('/manage');
+      // msg.error('没有权限');
+    }
     dispatch(setSelectedKey('user'));
   }, []);
 
@@ -292,6 +289,7 @@ const EditUser: React.FC = () => {
       }
     );
   }, []);
+
   return (
     <>
       <Tooltip title="添加用户">
@@ -331,13 +329,10 @@ const EditUser: React.FC = () => {
           </div>
           <div>
             <Badge color="rgb(45, 183, 245)"></Badge>
-            &nbsp;admin：所有权限（OSS,SMTP不可更改）
+            &nbsp;admin：所有权限（OSS,SMTP不可更改/用户权限不可更改）
           </div>
           <div>
             <Badge color="rgb(45, 183, 245)"></Badge>&nbsp;user：仅编辑照片
-          </div>
-          <div>
-            <Badge color="rgb(45, 183, 245)"></Badge>&nbsp;visitor：无权限
           </div>
         </div>
 
@@ -374,7 +369,7 @@ const EditUser: React.FC = () => {
           >
             <Select
               style={{ width: 120 }}
-              options={user.role === 'admin' ? roleList.slice(2, 4) : roleList}
+              options={user.role === 'admin' ? roleList.slice(2, 3) : roleList}
             />
           </Form.Item>
           <Form.Item>

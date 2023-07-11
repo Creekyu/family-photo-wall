@@ -30,14 +30,14 @@ service.interceptors.response.use(
     if (error.response.status) {
       // antd的全局message会报错，所以信息回馈由catchAsync处理
       // 这里只处理副作用
-      switch (error.response.status) {
-        case 403: {
-          const cookies = new Cookies();
-          cookies.remove('user');
-          cookies.remove('token');
-          break;
-        }
-      }
+      // switch (error.response.status) {
+      //   case 403: {
+      //     const cookies = new Cookies();
+      //     cookies.remove('user');
+      //     cookies.remove('token');
+      //     break;
+      //   }
+      // }
       return Promise.reject(error.response);
     }
   }

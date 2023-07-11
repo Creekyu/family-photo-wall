@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 // antd
 import { Button, Form, Input } from 'antd';
@@ -7,7 +8,7 @@ import { Button, Form, Input } from 'antd';
 import style from './index.module.scss';
 
 // redux
-import { useAppDispatch } from '@/redux';
+import { useAppDispatch, useAppSelector } from '@/redux';
 import { setSelectedKey } from '@/redux/slice/universal';
 
 // api
@@ -17,13 +18,22 @@ import { getOSSObject, setOSSObject } from '@/api/OSS';
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
+// interface
+import { loginUser } from '@/interface/userApi';
+
 const EditOSS = () => {
   const dispatch = useAppDispatch();
   const msg = useGlobalMessage();
+  const navigate = useNavigate();
+  const user = useAppSelector((state) => state.universal.user) as loginUser;
   const [config, setConfig] = useState<OSSConfig>();
   const [loading, setLoading] = useState(true);
   const [form] = Form.useForm();
   useEffect(() => {
+    if (user.role !== 'root') {
+      // msg.error('没有权限');
+      navigate('/manage');
+    }
     dispatch(setSelectedKey('oss'));
     getOSSObject(
       '',

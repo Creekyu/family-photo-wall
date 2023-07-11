@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Cookies from 'universal-cookie';
 import isEmail from 'validator/lib/isEmail';
@@ -18,14 +18,19 @@ import { userApi } from '@/api/users';
 import { LoginFormObj } from '@/interface/userApi';
 
 // redux
-import { setIsLogin } from '@/redux/slice/universal';
-import { useAppDispatch } from '@/redux';
+import { setIsLogin, setUser } from '@/redux/slice/universal';
+import { useAppDispatch, useAppSelector } from '@/redux';
 
 const LoginForm = () => {
   const message = useGlobalMessage();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const isLogin = useAppSelector((state) => state.universal.isLogin);
+
+  useEffect(() => {
+    if (isLogin) navigate('/manage/add');
+  }, [isLogin]);
   // Handle Submit
   const onFinish = (values: LoginFormObj) => {
     setLoading(true);
@@ -42,6 +47,8 @@ const LoginForm = () => {
         const user = data.data.user;
         // 设置token
         delete user['_id'];
+        // redux
+        dispatch(setUser(user));
         // 设置cookie持续时间90天
         const expires = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
         cookies.set('user', user, { path: '/', expires });

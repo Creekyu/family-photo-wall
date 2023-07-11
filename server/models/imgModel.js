@@ -23,6 +23,10 @@ const imageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  belongTo: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
 });
 
 imageSchema.pre(/^find/, function (next) {

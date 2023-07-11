@@ -21,6 +21,19 @@ export const getPhotos = catchAsync(async (features: ApiFeatures) => {
   return Promise.resolve(response);
 });
 
+export const getSelfPhotos = catchAsync(async (features: ApiFeatures) => {
+  const { page, limit, fields, sort, options } = features;
+  const response = await service.get(
+    '/api/images/getSelfPhotos?' +
+      (page ? `page=${page}&` : '') +
+      (limit ? `limit=${limit}&` : '') +
+      (fields ? `fields=${fields}&` : '') +
+      (sort ? `sort=${sort}&` : '') +
+      (options ? `${options}` : '')
+  );
+  return Promise.resolve(response);
+});
+
 export const delSingle = catchAsync(async (filename: string) => {
   const response = service.delete('/api/images', { data: { filename } });
   return Promise.resolve(response);

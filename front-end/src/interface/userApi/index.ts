@@ -3,6 +3,15 @@ export interface LoginFormObj {
   password: string;
 }
 
+export interface loginUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  avatar: string;
+  brief: string;
+}
+
 export interface userObj {
   id: string;
   _id: string;

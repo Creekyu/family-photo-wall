@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { loginUser } from '@/interface/userApi';
 
 const initialState = {
   // 后台
   selectedKey: 'add',
   isLogin: false,
+  user: {} as loginUser | null,
   // top header
   chosen: 0,
   randList: [] as number[],
@@ -27,6 +29,12 @@ const universalSlice = createSlice({
     setSelectedKey: (state, action) => {
       state.selectedKey = action.payload;
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+    delUser: (state) => {
+      state.user = null;
+    },
     setIsLogin: (state, action) => {
       state.isLogin = action.payload;
     },
@@ -36,6 +44,12 @@ const universalSlice = createSlice({
   },
 });
 
-export const { setSelectedKey, setIsLogin, setChosen, generateRandList } =
-  universalSlice.actions;
+export const {
+  delUser,
+  setUser,
+  setSelectedKey,
+  setIsLogin,
+  setChosen,
+  generateRandList,
+} = universalSlice.actions;
 export default universalSlice.reducer;

@@ -15,6 +15,7 @@ router
   .post(imageController.addPhotos)
   .patch(imageController.updateClass)
   .delete(imageController.delSingle);
+router.get('/getSelfPhotos', imageController.getSelfPhotos);
 router.delete('/delMany', imageController.delMany);
 router.get('/getCount', imageController.getCount);
 
