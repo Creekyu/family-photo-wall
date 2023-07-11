@@ -15,7 +15,11 @@ export interface updateUserForm {
   id: string;
   name?: string;
   email?: string;
-  role?: string;
+}
+
+export interface updateRoleForm {
+  id: string;
+  role: string;
 }
 
 export interface addUserForm {

@@ -197,10 +197,20 @@ const EditUser: React.FC = () => {
         key: 'role',
         dataIndex: 'role',
         render: (value, record, index) => {
-          const { role } = record;
+          const { role, id } = record;
           return (
             <>
-              {isRoleEdit ? undefined : (
+              {isRoleEdit && cur === index ? (
+                <Select
+                  defaultValue={role}
+                  style={{ width: 120 }}
+                  onChange={(value) => {
+                    userApi.updateRole({ id, role: value });
+                    navigate(0);
+                  }}
+                  options={roleList}
+                />
+              ) : (
                 <>
                   {role === 'root' ? (
                     <Tag color="purple">{role.toUpperCase()}</Tag>
@@ -228,9 +238,14 @@ const EditUser: React.FC = () => {
       {
         title: '操作',
         key: 'action',
-        render: (value) => (
+        render: (value, record) => (
           <Button
             danger
+            disabled={
+              user.role === 'admin'
+                ? !(record.role !== 'root' && record.role !== 'admin')
+                : false
+            }
             onClick={() => {
               modal.confirm({
                 title: '提示',

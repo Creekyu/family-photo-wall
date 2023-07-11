@@ -16,9 +16,10 @@ router.post('/login', authController.login);
 
 // 更新权限
 router.patch(
-  '/updateRole',
+  '/updateRole/:id',
   authController.protect,
-  authController.restrictTo('root')
+  authController.restrictTo('root'),
+  userController.updateRole
 );
 
 // 限制

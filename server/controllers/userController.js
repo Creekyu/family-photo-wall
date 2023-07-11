@@ -67,7 +67,15 @@ exports.addUser = catchAsync(async (req, res) => {
   });
 });
 
-exports.delUser = catchAsync(async (req, res) => {
+exports.delUser = catchAsync(async (req, res, next) => {
+  // 验证权限
+  const user = await User.findById(req.params.id);
+  if (
+    (req.user.role === 'admin' && user.role === 'root') ||
+    user.role === 'admin'
+  )
+    return next(new AppError('权限不足！', 403));
+
   await User.findByIdAndDelete(req.params.id);
 
   res.status(204).json({

@@ -4,7 +4,7 @@ const AuthController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.use(AuthController.protect, AuthController.restrictTo('admin'));
+router.use(AuthController.protect, AuthController.restrictTo('admin', 'root'));
 
 router
   .route('/')

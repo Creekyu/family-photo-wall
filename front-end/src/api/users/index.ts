@@ -2,7 +2,12 @@ import { catchAsync } from '@/api';
 import service from '@/utils/request';
 
 // interface
-import { addUserForm, LoginFormObj, updateUserForm } from '@/interface/userApi';
+import {
+  addUserForm,
+  LoginFormObj,
+  updateRoleForm,
+  updateUserForm,
+} from '@/interface/userApi';
 
 export const userApi = {
   login: catchAsync(async (data: LoginFormObj) => {
@@ -23,6 +28,13 @@ export const userApi = {
   }),
   updateUser: catchAsync(async (data: updateUserForm) => {
     const response = await service.patch(`/api/users/${data.id}`, data);
+    return Promise.resolve(response);
+  }),
+  updateRole: catchAsync(async (data: updateRoleForm) => {
+    const response = await service.patch(
+      `/api/users/updateRole/${data.id}`,
+      data
+    );
     return Promise.resolve(response);
   }),
 };

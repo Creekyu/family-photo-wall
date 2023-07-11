@@ -6,7 +6,10 @@ const router = express.Router();
 router.get('/', imageController.getPhotos);
 
 // 权限设置
-router.use(authController.protect, authController.restrictTo('admin'));
+router.use(
+  authController.protect,
+  authController.restrictTo('admin', 'root', 'user')
+);
 router
   .route('/')
   .post(imageController.addPhotos)
