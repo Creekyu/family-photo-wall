@@ -48,7 +48,7 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({
 
   useEffect(() => {
     // 获取一张随机图片
-    import(`@/assets/images/rand-${rand}.png`).then((response) => {
+    import(`@/assets/images/rand-${rand || 8}.png`).then((response) => {
       setRandPhoto(response.default);
     });
   }, []);
@@ -115,6 +115,7 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({
         </div>
       </div>
       <Modal
+        destroyOnClose
         getContainer={false}
         open={previewOpen}
         title="Preview"

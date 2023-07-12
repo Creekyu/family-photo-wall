@@ -190,6 +190,7 @@ const PhotoWall = () => {
         </div>
       </div>
       <Modal
+        destroyOnClose
         getContainer={false}
         open={previewOpen}
         title="Preview"
