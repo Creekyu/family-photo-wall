@@ -63,7 +63,11 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({
                   onPreview(photo.url + photo.filename);
                 }}
                 style={{
-                  backgroundImage: `url(${photo.url + photo.filename})`,
+                  backgroundImage: `url(${
+                    photo.url +
+                    photo.filename +
+                    '?x-oss-process=image/format,webp/quality,10'
+                  })`,
                 }}
               ></div>
             );

@@ -213,7 +213,7 @@ const EditUser: React.FC = () => {
                   ) : (
                     <Tag color="blue">{role.toUpperCase()}</Tag>
                   )}
-                  {user.id === record.id ? null : user.role === 'root' ? (
+                  {user?.id === record.id ? null : user?.role === 'root' ? (
                     <EditBtn
                       onClick={() => {
                         setIsRoleEdit(true);
@@ -234,7 +234,7 @@ const EditUser: React.FC = () => {
           <Button
             danger
             disabled={
-              user.role === 'admin'
+              user?.role === 'admin'
                 ? !(record.role !== 'root' && record.role !== 'admin')
                 : false
             }
@@ -267,7 +267,7 @@ const EditUser: React.FC = () => {
 
   useEffect(() => {
     // // 路由守卫
-    if (user.role !== 'admin' && user.role !== 'root') {
+    if (user?.role !== 'admin' && user?.role !== 'root') {
       navigate('/manage');
       // msg.error('没有权限');
     }
@@ -369,7 +369,7 @@ const EditUser: React.FC = () => {
           >
             <Select
               style={{ width: 120 }}
-              options={user.role === 'admin' ? roleList.slice(2, 3) : roleList}
+              options={user?.role === 'admin' ? roleList.slice(2, 3) : roleList}
             />
           </Form.Item>
           <Form.Item>

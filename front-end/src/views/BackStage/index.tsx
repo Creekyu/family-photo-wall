@@ -9,7 +9,7 @@ import {
   MenuUnfoldOutlined,
   CodepenOutlined,
 } from '@ant-design/icons';
-import { Layout, Button, theme } from 'antd';
+import { Layout, Button, theme, Avatar, Tooltip } from 'antd';
 
 const { Header, Sider, Content } = Layout;
 
@@ -28,13 +28,16 @@ import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 import { delUser, setIsLogin } from '@/redux/slice/universal';
 import { useAppDispatch, useAppSelector } from '@/redux';
 
+// interface
+import { loginUser } from '@/interface/userApi';
+
 // global
 import { BREAK_POINT } from '@/global';
 
 const BackStage: React.FC = () => {
   const { width } = useViewport();
   const [collapsed, setCollapsed] = useState(width <= BREAK_POINT);
-  const isLogin = useAppSelector((state) => state.universal.isLogin);
+  const isLogin = useAppSelector((state) => state.universal.user) as loginUser;
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -42,6 +45,7 @@ const BackStage: React.FC = () => {
   const message = useGlobalMessage();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.universal.user);
 
   // 路由守卫
   useEffect(() => {
@@ -93,6 +97,15 @@ const BackStage: React.FC = () => {
           <Link to="/" className={style.back}>
             返回主界面
           </Link>
+          <div className={style.avatar}>
+            <Tooltip title={user?.name}>
+              <Avatar style={{ backgroundColor: '#f56a00' }} size="large">
+                <span style={{ fontSize: '16px' }} className={style.font}>
+                  {user?.name[0]}
+                </span>
+              </Avatar>
+            </Tooltip>
+          </div>
           <div className={style.logOut} onClick={handleLogout}>
             Log out
           </div>

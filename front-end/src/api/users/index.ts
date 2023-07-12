@@ -7,6 +7,8 @@ import {
   LoginFormObj,
   updateRoleForm,
   updateUserForm,
+  updatePswForm,
+  updateMeForm,
 } from '@/interface/userApi';
 
 export const userApi = {
@@ -35,6 +37,14 @@ export const userApi = {
       `/api/users/updateRole/${data.id}`,
       data
     );
+    return Promise.resolve(response);
+  }),
+  updatePsw: catchAsync(async (data: updatePswForm) => {
+    const response = await service.post('/api/users/updatePsw', data);
+    return Promise.resolve(response);
+  }),
+  updateMe: catchAsync(async (data: updateMeForm) => {
+    const response = await service.patch('/api/users/updateMe', data);
     return Promise.resolve(response);
   }),
 };

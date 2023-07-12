@@ -1,7 +1,6 @@
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj');
-const Image = require('../models/imgModel');
 const AppError = require('../utils/appError');
 
 // 用于对已经登录的用户刷新其状态
@@ -123,7 +122,7 @@ exports.updateRole = catchAsync(async (req, res) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).select('+password');
+  const user = await User.findById(req.user.id).select('+password');
 
   // 验证旧密码是否匹配
   if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
@@ -141,5 +140,20 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: null,
+  });
+});
+
+exports.updateMe = catchAsync(async (req, res) => {
+  const filteredBody = filterObj(req.body, 'name', 'email');
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      updatedUser,
+    },
   });
 });

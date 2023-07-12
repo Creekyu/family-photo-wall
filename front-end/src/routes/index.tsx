@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from 'react';
 import { RouteObject } from 'react-router';
-import AuthRoute from '@/views/AuthRoute';
 import LoadingPage from '@/components/LoadingPage';
 
 export type Routes = {
@@ -38,7 +37,11 @@ const router: Routes[] = [
     children: [
       {
         path: '',
-        element: lazy(() => import('@/views/BackStage/AddPhoto')),
+        element: lazy(() => import('@/views/BackStage/EditInfo')),
+      },
+      {
+        path: 'self',
+        element: lazy(() => import('@/views/BackStage/EditInfo')),
       },
       {
         path: 'add',

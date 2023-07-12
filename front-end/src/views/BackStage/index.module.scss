@@ -5,6 +5,7 @@
     height: 100vh;
 
     .logo {
+      @include unSelectable;
       width: 80%;
       height: 45px;
       line-height: 45px;
@@ -20,11 +21,21 @@
     .logOut {
       cursor: pointer;
       float: right;
-      padding-right: 20px;
+      padding-right: 10px;
       transition: all .3s;
 
       &:hover {
         color: $THEME_COLOR;
+      }
+    }
+
+    .avatar{
+      float:right;
+      padding-right:10px;
+      cursor: pointer;
+
+      .font{
+        @include unSelectable;
       }
     }
 

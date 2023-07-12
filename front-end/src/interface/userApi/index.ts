@@ -26,6 +26,11 @@ export interface updateUserForm {
   email?: string;
 }
 
+export interface updateMeForm {
+  name?: string;
+  email?: string;
+}
+
 export interface updateRoleForm {
   id: string;
   role: string;
@@ -35,4 +40,10 @@ export interface addUserForm {
   name: string;
   email: string;
   role: string;
+}
+
+export interface updatePswForm {
+  oldPassword: string;
+  password: string;
+  passwordConfirm: string;
 }

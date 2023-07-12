@@ -29,7 +29,7 @@ const LoginForm = () => {
   const isLogin = useAppSelector((state) => state.universal.isLogin);
 
   useEffect(() => {
-    if (isLogin) navigate('/manage/add');
+    if (isLogin) navigate('/manage');
   }, [isLogin]);
   // Handle Submit
   const onFinish = (values: LoginFormObj) => {
@@ -55,7 +55,7 @@ const LoginForm = () => {
         cookies.set('token', data.token, { path: '/', expires });
         dispatch(setIsLogin(true));
         // 跳转
-        navigate('/manage/add');
+        navigate('/manage');
       },
       (content) => {
         message.error(content);

@@ -1,0 +1,26 @@
+@import "@/assets/css/index.scss";
+
+.wrapper{
+  width: 50%;
+}
+
+.title {
+  $HEIGHT: 20px;
+  height: $HEIGHT;
+
+  > div {
+    float: left;
+    line-height: $HEIGHT;
+    height: 100%;
+  }
+
+  > div:first-child {
+    width: 10px;
+    background-color: $THEME_COLOR;
+  }
+
+  > div:last-child {
+    font-size: 16px;
+    padding-left: 5px;
+  }
+}

@@ -12,6 +12,7 @@ import {
   CloudDownloadOutlined,
   MailOutlined,
   UserOutlined,
+  PictureOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
@@ -36,8 +37,9 @@ function getItem(
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
+  getItem('个人信息', 'self', <EditOutlined />),
   getItem('添加照片', 'add', <PlusSquareOutlined />),
-  getItem('编辑照片', 'edit', <EditOutlined />, [
+  getItem('编辑照片', 'edit', <PictureOutlined />, [
     getItem('即时上传', 'now', <PushpinOutlined />),
     getItem('大事记', 'bigEvent', <StarOutlined />),
     getItem('往事回忆', 'memory', <FieldTimeOutlined />),

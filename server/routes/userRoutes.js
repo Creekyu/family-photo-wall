@@ -14,6 +14,22 @@ router.post('/login', authController.login);
 // router.post('/forgotPassword', authController.forgotPassword);
 // router.patch('/resetPassword', authController.resetPassword);
 
+// 个人信息
+router.patch(
+  '/updateMe',
+  authController.protect,
+  authController.restrictTo('root', 'admin', 'user'),
+  userController.updateMe
+);
+
+// 更改密码
+router.post(
+  '/updatePsw',
+  authController.protect,
+  authController.restrictTo('root', 'admin', 'user'),
+  userController.updatePassword
+);
+
 // 更新权限
 router.patch(
   '/updateRole/:id',

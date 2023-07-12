@@ -96,7 +96,7 @@ exports.delMany = catchAsync(async (req, res) => {
   });
 });
 
-exports.updateClass = catchAsync(async (req, res, next) => {
+exports.updateClass = catchAsync(async (req, res) => {
   const { fileList } = req.body;
   const filteredBody = filterObj(req.body, 'classification');
   const updatedList = await Image.updateMany(
