@@ -25,7 +25,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
 
 // redux
-import { delUser, setIsLogin } from '@/redux/slice/universal';
+import { delUser, setIsLogin, setUser } from '@/redux/slice/universal';
 import { useAppDispatch, useAppSelector } from '@/redux';
 
 // interface
@@ -46,6 +46,16 @@ const BackStage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.universal.user);
+
+  // cookie删除后重置state
+  useEffect(() => {
+    const cookies = new Cookies();
+    const cookieUser = cookies.get('user');
+    if (!cookieUser) {
+      dispatch(setUser(null));
+      dispatch(setIsLogin(false));
+    }
+  }, []);
 
   // 路由守卫
   useEffect(() => {
@@ -72,7 +82,7 @@ const BackStage: React.FC = () => {
       <Sider
         trigger={null}
         collapsible
-        collapsed={collapsed}
+        collapsed={width < BREAK_POINT ? true : collapsed}
         width="15vw"
         theme="light"
       >
@@ -85,6 +95,7 @@ const BackStage: React.FC = () => {
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <Button
+            hidden={width < BREAK_POINT}
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
@@ -101,7 +112,7 @@ const BackStage: React.FC = () => {
             <Tooltip title={user?.name}>
               <Avatar style={{ backgroundColor: '#f56a00' }} size="large">
                 <span style={{ fontSize: '16px' }} className={style.font}>
-                  {user?.name[0]}
+                  {user?.name ? user.name[0] : undefined}
                 </span>
               </Avatar>
             </Tooltip>

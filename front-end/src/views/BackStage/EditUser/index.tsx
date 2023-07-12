@@ -32,6 +32,7 @@ import { setSelectedKey } from '@/redux/slice/universal';
 
 // redux
 import { useAppDispatch, useAppSelector } from '@/redux';
+import { useSearchParams } from 'react-router-dom';
 
 interface DataType {
   key: string;
@@ -83,12 +84,18 @@ const EditUser: React.FC = () => {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState<DataType[]>();
+  const [count, setCount] = useState(0);
 
   // edit框
   const [isNameEdit, setIsNameEdit] = useState(false);
   const [isEmailEdit, setIsEmailEdit] = useState(false);
   const [isRoleEdit, setIsRoleEdit] = useState(false);
+  const [curEditRole, setCurEditRole] = useState('');
   const [cur, setCur] = useState(0);
+
+  //nav
+  const [search] = useSearchParams();
+  const page = search.get('page');
 
   const user = useAppSelector((state) => state.universal.user) as loginUser;
 
@@ -99,7 +106,6 @@ const EditUser: React.FC = () => {
         title: '昵称',
         dataIndex: 'name',
         key: 'name',
-        ellipsis: true,
         render: (value, record, index) => {
           return (
             <>
@@ -196,8 +202,12 @@ const EditUser: React.FC = () => {
             <>
               {isRoleEdit && cur === index ? (
                 <Select
+                  autoFocus
                   defaultValue={role}
                   style={{ width: 120 }}
+                  onBlur={() => {
+                    setIsRoleEdit(false);
+                  }}
                   onChange={(value) => {
                     userApi.updateRole({ id, role: value });
                     navigate(0);
@@ -266,7 +276,7 @@ const EditUser: React.FC = () => {
   }, [isNameEdit, isEmailEdit, isRoleEdit]);
 
   useEffect(() => {
-    // // 路由守卫
+    // 路由守卫
     if (user?.role !== 'admin' && user?.role !== 'root') {
       navigate('/manage');
       // msg.error('没有权限');
@@ -276,22 +286,39 @@ const EditUser: React.FC = () => {
 
   useEffect(() => {
     userApi.getUsers(
-      '',
+      {
+        page: page ? page : 1,
+        limit: 8,
+        fields: '',
+        sort: '+_id',
+      },
       (res) => {
+        const p = page ? parseInt(page) : 1;
+        if (!res.data.users.length && p > 1)
+          navigate(`/manage/user?page=${p - 1}`);
         const data = res.data.users.map((user: userObj) => {
           const { name, email, id, role } = user;
           return { key: id, id, name, email, role } as DataType;
         });
         setUsers(data);
       },
-      (err) => {
-        msg.error(err);
+      (content) => {
+        msg.error(content);
       }
     );
-  }, []);
+    userApi.getCount(
+      '',
+      (res) => {
+        setCount(res.data.count);
+      },
+      (content) => {
+        msg.error(content);
+      }
+    );
+  }, [page]);
 
   return (
-    <>
+    <div className={style.wrapper}>
       <Tooltip title="添加用户">
         <Button
           size="large"
@@ -381,8 +408,22 @@ const EditUser: React.FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-      <Table columns={columns} dataSource={users} />
-    </>
+      <Table
+        columns={columns}
+        dataSource={users}
+        pagination={{
+          position: ['bottomCenter'],
+          pageSize: 8,
+          total: count,
+          current: page ? parseInt(page) : 1,
+          showSizeChanger: false,
+          showQuickJumper: false,
+          onChange: (page) => {
+            navigate(`/manage/user?page=${page}`);
+          },
+        }}
+      />
+    </div>
   );
 };
 

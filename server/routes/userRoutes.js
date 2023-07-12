@@ -44,6 +44,7 @@ router.use(authController.restrictTo('admin', 'root'));
 
 // 用户管理
 router.route('/').get(userController.getAllUsers).post(userController.addUser);
+router.get('/count', userController.getCount);
 router
   .route('/:id')
   .delete(userController.delUser)

@@ -20,6 +20,10 @@ import { Menu } from 'antd';
 // redux
 import { useAppSelector } from '@/redux';
 
+// provider
+import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+import { BREAK_POINT } from '@/global';
+
 function getItem(
   label: React.ReactNode,
   key: React.Key,
@@ -51,12 +55,13 @@ const items: MenuItem[] = [
 ];
 
 const BackStageMenu = () => {
+  const { width } = useViewport();
   const navigate = useNavigate();
   const selectedKey = useAppSelector((state) => state.universal.selectedKey);
   return (
     <Menu
       theme="light"
-      defaultOpenKeys={['edit']}
+      defaultOpenKeys={width < BREAK_POINT ? undefined : ['edit']}
       selectedKeys={[selectedKey]}
       mode="inline"
       items={items}

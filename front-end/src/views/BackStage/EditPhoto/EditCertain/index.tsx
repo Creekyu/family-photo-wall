@@ -220,6 +220,7 @@ const EditCertain = () => {
           ]}
         />
         <Button
+          className={style.editBtn}
           icon={<EditOutlined />}
           disabled={!selectedList.length}
           onClick={() => {
@@ -244,6 +245,7 @@ const EditCertain = () => {
           修改
         </Button>
         <Button
+          className={style.editBtn}
           icon={<DeleteOutlined />}
           danger
           disabled={!selectedList.length}

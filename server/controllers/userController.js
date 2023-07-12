@@ -2,6 +2,8 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const filterObj = require('../utils/filterObj');
 const AppError = require('../utils/appError');
+const APIFeatures = require('../utils/apiFeatures');
+const Image = require('../models/imgModel');
 
 // 用于对已经登录的用户刷新其状态
 exports.updateLoginState = catchAsync(async (req, res) => {
@@ -36,12 +38,26 @@ exports.getUser = catchAsync(async (req, res) => {
 
 // user manage
 exports.getAllUsers = catchAsync(async (req, res) => {
-  const users = await User.find();
-
+  const features = new APIFeatures(User.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const users = await features.query;
   res.status(200).json({
     status: 'success',
     data: {
       users,
+    },
+  });
+});
+
+exports.getCount = catchAsync(async (req, res) => {
+  const count = await User.count({ active: true });
+  res.status(200).json({
+    status: 'success',
+    data: {
+      count,
     },
   });
 });

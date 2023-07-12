@@ -1,24 +1,40 @@
-.wrapper {
-  .classSelect,.photoTime {
-    width: 80%;
-    margin: 10px auto;
-    span:first-child{
-      padding-right:5px;
+@import "@/assets/css/index.scss";
+
+@media (width>$BREAK_POINT){
+  .wrapper {
+    .classSelect,.photoTime {
+      width: 80%;
+      margin: 10px auto;
+      span:last-child{
+        font-size: 12px;
+        margin-left: 5px;
+      }
     }
-    span:nth-child(3){
-      color:red;
+    .upload {
+      width: 80%;
+      margin: 0 auto;
       padding:{
-        left:10px;
-        right:5px;
+        top:10px;
       }
     }
   }
+}
 
-  .upload {
-    width: 80%;
-    margin: 0 auto;
-    padding:{
-      top:10px;
+@media (width<$BREAK_POINT){
+  .classSelect,.photoTime{
+    width: 90%;
+    margin: 10px auto;
+    >span{
+      display: block;
+      padding:10px 0;
     }
+    >span:last-child{
+      font-size: 12px;
+    }
+  }
+  .upload{
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 10px;
   }
 }

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { nanoid } from 'nanoid';
 
 // antd
-import { Form, Upload, Select, DatePicker } from 'antd';
+import { Form, Upload, Select, DatePicker, Badge } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/lib/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
@@ -24,7 +24,11 @@ import { setSelectedKey } from '@/redux/slice/universal';
 // api
 import { getOSSPolicy } from '@/api/OSS';
 import { addPhotos } from '@/api/images';
+
+// provider
 import { useViewport } from '@/components/ContextProvider/ViewportProvider';
+
+// global
 import { BREAK_POINT } from '@/global';
 
 interface OSSDataType {
@@ -258,8 +262,14 @@ const AddPhoto: React.FC = () => {
             { value: 'others', label: '其他' },
           ]}
         />
-        <span>*</span>
-        <span>用于前端不同照片展示区分类</span>
+        <span>
+          <Badge
+            color="magenta"
+            status="processing"
+            style={{ paddingRight: 5 }}
+          ></Badge>
+          用于前端不同照片展示区分类
+        </span>
       </div>
       <div className={style.photoTime}>
         <span>请选择上传照片日期：</span>
@@ -268,8 +278,14 @@ const AddPhoto: React.FC = () => {
           format={dateFormat}
           onChange={handleTime}
         />
-        <span>*</span>
-        <span>用于时间轴展示（不填默认为当前时间）</span>
+        <span>
+          <Badge
+            color="magenta"
+            status="processing"
+            style={{ paddingRight: 5 }}
+          ></Badge>
+          用于时间轴展示（不填默认为当前时间）
+        </span>
       </div>
       <div className={style.upload}>
         <Form labelCol={{ span: 4 }}>

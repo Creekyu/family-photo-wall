@@ -10,6 +10,7 @@ import {
   updatePswForm,
   updateMeForm,
 } from '@/interface/userApi';
+import { ApiFeatures } from '@/interface/apiFeatures';
 
 export const userApi = {
   login: catchAsync(async (data: LoginFormObj) => {
@@ -20,8 +21,16 @@ export const userApi = {
     const response = await service.post('/api/users', data);
     return Promise.resolve(response);
   }),
-  getUsers: catchAsync(async () => {
-    const response = await service.get('/api/users');
+  getUsers: catchAsync(async (features: ApiFeatures) => {
+    const { page, limit, fields, sort, options } = features;
+    const response = await service.get(
+      '/api/users?' +
+        (page ? `page=${page}&` : '') +
+        (limit ? `limit=${limit}&` : '') +
+        (fields ? `fields=${fields}&` : '') +
+        (sort ? `sort=${sort}&` : '') +
+        (options ? `${options}` : '')
+    );
     return Promise.resolve(response);
   }),
   delUser: catchAsync(async (id: string) => {
@@ -45,6 +54,10 @@ export const userApi = {
   }),
   updateMe: catchAsync(async (data: updateMeForm) => {
     const response = await service.patch('/api/users/updateMe', data);
+    return Promise.resolve(response);
+  }),
+  getCount: catchAsync(async () => {
+    const response = await service.get('/api/users/count');
     return Promise.resolve(response);
   }),
 };
