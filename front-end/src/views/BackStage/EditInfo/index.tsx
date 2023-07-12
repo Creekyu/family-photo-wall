@@ -178,6 +178,12 @@ const EditInfo = () => {
             ref={pswCfmRef2}
           />
         </div>
+        <div>
+          <Badge color="lime" style={{ fontSize: 12 }}></Badge>
+          <span style={{ marginLeft: 5, fontSize: 12 }}>
+            初始密码为：123456
+          </span>
+        </div>
       </ChangeFormBox>
       <ChangeFormBox
         title="邮箱"

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 
 // antd
-import { Timeline } from 'antd';
+import { Modal, Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 
 // css
@@ -25,15 +25,15 @@ import img from '@/assets/images/timeline.png';
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
-// util
-import { onPreview } from '@/utils';
-
 // comp
 import TopDisplay from '@/components/TopDisplay';
 import LoadingComp from '@/components/LoadingComp';
 
 // 生成带年份分类的时间轴对象
-const generateTimeLine = (timeline: ImgObj[]) => {
+const generateTimeLine = (
+  timeline: ImgObj[],
+  handlePreview: (src: string) => void
+) => {
   // timeLine[] 已经按时间新到旧排序
   if (timeline && timeline.length) {
     const list = [];
@@ -61,7 +61,7 @@ const generateTimeLine = (timeline: ImgObj[]) => {
             className={style.itemWrapper}
             // click
             onClick={() => {
-              onPreview(item.url + item.filename);
+              handlePreview(item.url + item.filename);
             }}
           >
             <img
@@ -96,6 +96,13 @@ const TimeLine = () => {
   const [photos, setPhotos] = useState<ImgObj[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+
+  const handlePreview = (src: string) => {
+    setPreviewOpen(true);
+    setPreviewImage(src);
+  };
   const handleClick = () => {
     getPhotos(
       {
@@ -152,7 +159,10 @@ const TimeLine = () => {
         <LoadingComp loading={loading}></LoadingComp>
         <div className={loading ? 'loading-active' : 'loading-not-active'}>
           {photos.length ? (
-            <Timeline mode="alternate" items={generateTimeLine(photos)} />
+            <Timeline
+              mode="alternate"
+              items={generateTimeLine(photos, handlePreview)}
+            />
           ) : (
             <div className={style.noTimeLine}>当前没有时间轴~</div>
           )}
@@ -162,6 +172,17 @@ const TimeLine = () => {
           </div>
         </div>
       </div>
+      <Modal
+        getContainer={false}
+        open={previewOpen}
+        title="Preview"
+        footer={null}
+        onCancel={() => {
+          setPreviewOpen(false);
+        }}
+      >
+        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+      </Modal>
     </div>
   );
 };

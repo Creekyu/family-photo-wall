@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+// antd
+import { Modal } from 'antd';
+
 // css
 import style from './index.module.scss';
 
@@ -35,6 +38,13 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({
   const message = useGlobalMessage();
   const [photos, setPhotos] = useState<React.ReactNode[]>([]);
   const [randPhoto, setRandPhoto] = useState(img);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+
+  const handlePreview = (src: string) => {
+    setPreviewOpen(true);
+    setPreviewImage(src);
+  };
 
   useEffect(() => {
     // 获取一张随机图片
@@ -60,7 +70,7 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({
                 key={photo._id}
                 className={style.link}
                 onClick={() => {
-                  onPreview(photo.url + photo.filename);
+                  handlePreview(photo.url + photo.filename);
                 }}
                 style={{
                   backgroundImage: `url(${
@@ -80,29 +90,42 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({
     );
   }, []);
   return (
-    <div className={`${style.photosBox} clearfix`}>
-      <div className={style.title}>
-        <div>{title}</div>
-        <div onClick={onClick}>查看更多{'>>'}</div>
+    <>
+      <div className={`${style.photosBox} clearfix`}>
+        <div className={style.title}>
+          <div>{title}</div>
+          <div onClick={onClick}>查看更多{'>>'}</div>
+        </div>
+        <div className={`${style.photos} clearfix`}>
+          {photos.length ? (
+            <>
+              <ArrangedBox photos={photos}></ArrangedBox>
+            </>
+          ) : (
+            <div
+              className={style.noPhoto}
+              style={{ backgroundImage: `url(${randPhoto})` }}
+              onClick={() => {
+                handlePreview(randPhoto);
+              }}
+            >
+              <div>该板块暂时未上传图片~</div>
+            </div>
+          )}
+        </div>
       </div>
-      <div className={`${style.photos} clearfix`}>
-        {photos.length ? (
-          <>
-            <ArrangedBox photos={photos}></ArrangedBox>
-          </>
-        ) : (
-          <div
-            className={style.noPhoto}
-            style={{ backgroundImage: `url(${randPhoto})` }}
-            onClick={() => {
-              onPreview(randPhoto);
-            }}
-          >
-            <div>该板块暂时未上传图片~</div>
-          </div>
-        )}
-      </div>
-    </div>
+      <Modal
+        getContainer={false}
+        open={previewOpen}
+        title="Preview"
+        footer={null}
+        onCancel={() => {
+          setPreviewOpen(false);
+        }}
+      >
+        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+      </Modal>
+    </>
   );
 };
 

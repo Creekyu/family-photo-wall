@@ -13,3 +13,10 @@
 .loading-not-active{
   display: block;
 }
+
+// 将antd的Modal组件的滚动条隐藏
+.ant-modal-root{
+  ::-webkit-scrollbar{
+    width: 0;
+  }
+}

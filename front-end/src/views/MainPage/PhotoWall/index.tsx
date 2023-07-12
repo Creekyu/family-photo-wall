@@ -28,6 +28,7 @@ import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 // redux
 import { useAppDispatch } from '@/redux';
 import { setChosen } from '@/redux/slice/universal';
+import { Modal } from 'antd';
 
 const PhotoWall = () => {
   const {
@@ -38,6 +39,13 @@ const PhotoWall = () => {
   const [photos, setPhotos] = useState<React.ReactNode[][]>([[]]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+
+  const handlePreview = (src: string) => {
+    setPreviewOpen(true);
+    setPreviewImage(src);
+  };
 
   const handleClick = () => {
     getPhotos(
@@ -67,7 +75,11 @@ const PhotoWall = () => {
                   onPreview(photo.url + photo.filename);
                 }}
                 style={{
-                  backgroundImage: `url(${photo.url + photo.filename})`,
+                  backgroundImage: `url(${
+                    photo.url +
+                    photo.filename +
+                    '?x-oss-process=image/format,webp/quality,10'
+                  })`,
                 }}
               ></div>
             );
@@ -119,7 +131,7 @@ const PhotoWall = () => {
                 key={photo._id}
                 className={style.link}
                 onClick={() => {
-                  onPreview(photo.url + photo.filename);
+                  handlePreview(photo.url + photo.filename);
                 }}
                 style={{
                   backgroundImage: `url(${
@@ -165,7 +177,7 @@ const PhotoWall = () => {
                 className={style.noPhoto}
                 style={{ backgroundImage: `url(${img1})` }}
                 onClick={() => {
-                  onPreview(img1);
+                  handlePreview(img1);
                 }}
               >
                 <div>当前分类暂时没有照片~</div>
@@ -177,6 +189,17 @@ const PhotoWall = () => {
           </div>
         </div>
       </div>
+      <Modal
+        getContainer={false}
+        open={previewOpen}
+        title="Preview"
+        footer={null}
+        onCancel={() => {
+          setPreviewOpen(false);
+        }}
+      >
+        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+      </Modal>
     </div>
   );
 };
