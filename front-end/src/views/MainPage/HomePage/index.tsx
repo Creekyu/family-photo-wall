@@ -27,6 +27,16 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const randList = useAppSelector((state) => state.universal.randList);
 
+  // 自动滚动，触发lazyload
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 100,
+        behavior: 'smooth',
+      });
+    }, 1050);
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);

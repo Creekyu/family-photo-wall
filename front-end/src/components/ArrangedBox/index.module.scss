@@ -1,0 +1,18 @@
+@import "@/assets/css/index.scss";
+
+.wrapper {
+
+  div {
+    overflow: hidden !important;
+  }
+
+
+  .hover {
+    transition: all .3s;
+
+    &:hover {
+      @include onHover;
+      transform: translateY(-10px);
+    }
+  }
+}

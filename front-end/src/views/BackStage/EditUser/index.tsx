@@ -135,12 +135,15 @@ const EditUser: React.FC = () => {
               ) : (
                 <>
                   {value}
-                  <EditBtn
-                    onClick={() => {
-                      setIsNameEdit(true);
-                      setCur(index);
-                    }}
-                  />
+                  {user?.role === 'root' ||
+                  (user?.role === 'admin' && record.role !== 'root') ? (
+                    <EditBtn
+                      onClick={() => {
+                        setIsNameEdit(true);
+                        setCur(index);
+                      }}
+                    />
+                  ) : undefined}
                 </>
               )}
             </>
@@ -180,12 +183,15 @@ const EditUser: React.FC = () => {
               ) : (
                 <>
                   {value}
-                  <EditBtn
-                    onClick={() => {
-                      setIsEmailEdit(true);
-                      setCur(index);
-                    }}
-                  />
+                  {user?.role === 'root' ||
+                  (user?.role === 'admin' && record.role !== 'root') ? (
+                    <EditBtn
+                      onClick={() => {
+                        setIsEmailEdit(true);
+                        setCur(index);
+                      }}
+                    />
+                  ) : undefined}
                 </>
               )}
             </>

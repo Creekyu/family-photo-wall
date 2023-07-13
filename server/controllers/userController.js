@@ -173,3 +173,15 @@ exports.updateMe = catchAsync(async (req, res) => {
     },
   });
 });
+
+exports.updateUserPsw = catchAsync(async (req, res) => {
+  const user = await User.findById(req.body.id).select('+password');
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: null,
+  });
+});

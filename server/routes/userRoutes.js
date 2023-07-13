@@ -14,6 +14,9 @@ router.post('/login', authController.login);
 // router.post('/forgotPassword', authController.forgotPassword);
 // router.patch('/resetPassword', authController.resetPassword);
 
+// 强制改密（自用）
+// router.post('/changePsw', userController.updateUserPsw);
+
 // 个人信息
 router.patch(
   '/updateMe',

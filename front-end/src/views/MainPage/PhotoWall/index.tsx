@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
+import LazyLoad from 'react-lazyload';
+
+// antd
+import { Modal } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 // css
 import style from './index.module.scss';
@@ -19,16 +25,15 @@ import { ClsEnum, cls, ImgObj } from '@/interface/imagesApi';
 // api
 import { getPhotos } from '@/api/images';
 
-// util
-import { onPreview } from '@/utils';
-
 // provider
 import { useGlobalMessage } from '@/components/ContextProvider/MessageProvider';
 
 // redux
 import { useAppDispatch } from '@/redux';
 import { setChosen } from '@/redux/slice/universal';
-import { Modal } from 'antd';
+
+// comp
+import LoadingPage from '@/components/LoadingPage';
 
 const PhotoWall = () => {
   const {
@@ -68,20 +73,29 @@ const PhotoWall = () => {
           ...photos,
           res.data.images.map((photo: ImgObj) => {
             return (
-              <div
+              <LazyLoad
                 key={photo._id}
-                className={style.link}
-                onClick={() => {
-                  onPreview(photo.url + photo.filename);
-                }}
-                style={{
-                  backgroundImage: `url(${
+                placeholder={
+                  <Spin
+                    indicator={
+                      <LoadingOutlined style={{ fontSize: 40 }} spin />
+                    }
+                  />
+                }
+              >
+                <img
+                  className={style.link}
+                  onClick={() => {
+                    handlePreview(photo.url + photo.filename);
+                  }}
+                  src={
                     photo.url +
                     photo.filename +
-                    '?x-oss-process=image/format,webp/quality,10'
-                  })`,
-                }}
-              ></div>
+                    '?x-oss-process=image/format,webp/quality,2'
+                  }
+                  alt="photo"
+                ></img>
+              </LazyLoad>
             );
           }),
         ]);
@@ -92,6 +106,16 @@ const PhotoWall = () => {
       }
     );
   };
+
+  // 自动滚动，触发lazyload
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 100,
+        behavior: 'smooth',
+      });
+    }, 1050);
+  }, [classification]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -127,20 +151,29 @@ const PhotoWall = () => {
         setPhotos([
           res.data.images.map((photo: ImgObj) => {
             return (
-              <div
+              <LazyLoad
                 key={photo._id}
-                className={style.link}
-                onClick={() => {
-                  handlePreview(photo.url + photo.filename);
-                }}
-                style={{
-                  backgroundImage: `url(${
+                placeholder={
+                  <Spin
+                    indicator={
+                      <LoadingOutlined style={{ fontSize: 40 }} spin />
+                    }
+                  />
+                }
+              >
+                <img
+                  className={style.link}
+                  onClick={() => {
+                    handlePreview(photo.url + photo.filename);
+                  }}
+                  src={
                     photo.url +
                     photo.filename +
-                    '?x-oss-process=image/format,webp/quality,10'
-                  })`,
-                }}
-              ></div>
+                    '?x-oss-process=image/format,webp/quality,2'
+                  }
+                  alt="photo"
+                ></img>
+              </LazyLoad>
             );
           }),
         ]);

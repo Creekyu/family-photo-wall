@@ -39,13 +39,4 @@ $MAX_WIDTH: 1100px;
   float: left;
   width: 100%;
   height: 100%;
-  transition: all .3s;
-  background: {
-    size: cover;
-    repeat: no-repeat;
-  };
-
-  &:hover {
-    @include onHover;
-  }
 }

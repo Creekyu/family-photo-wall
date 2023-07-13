@@ -94,7 +94,7 @@ const EditCertain = () => {
           return (
             <img
               key={url}
-              src={url}
+              src={url + '?x-oss-process=image/quality,10'}
               alt="photo"
               style={{ maxHeight: 100, maxWidth: 100 }}
             />

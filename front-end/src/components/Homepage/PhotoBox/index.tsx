@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
+import LazyLoad from 'react-lazyload';
 // antd
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 
 // css
 import style from './index.module.scss';
@@ -18,9 +18,7 @@ import img from '@/assets/images/rand-8.png';
 
 // comp
 import ArrangedBox from '@/components/ArrangedBox';
-
-// util
-import { onPreview } from '@/utils';
+import { LoadingOutlined } from '@ant-design/icons';
 
 interface PhotoBoxProps {
   classification: cls;
@@ -66,20 +64,44 @@ const PhotoBox: React.FC<PhotoBoxProps> = ({
         setPhotos(
           res.data.images.map((photo: ImgObj) => {
             return (
-              <div
+              // <LazyLoad key={photo._id}>
+              //   <div
+              //     className={style.link}
+              //     onClick={() => {
+              //       handlePreview(photo.url + photo.filename);
+              //     }}
+              //     style={{
+              //       backgroundImage: `url(${
+              //         photo.url +
+              //         photo.filename +
+              //         '?x-oss-process=image/format,webp/quality,10'
+              //       })`,
+              //     }}
+              //   ></div>
+              // </LazyLoad>
+              <LazyLoad
                 key={photo._id}
-                className={style.link}
-                onClick={() => {
-                  handlePreview(photo.url + photo.filename);
-                }}
-                style={{
-                  backgroundImage: `url(${
+                placeholder={
+                  <Spin
+                    indicator={
+                      <LoadingOutlined style={{ fontSize: 40 }} spin />
+                    }
+                  />
+                }
+              >
+                <img
+                  className={style.link}
+                  onClick={() => {
+                    handlePreview(photo.url + photo.filename);
+                  }}
+                  src={
                     photo.url +
                     photo.filename +
-                    '?x-oss-process=image/format,webp/quality,10'
-                  })`,
-                }}
-              ></div>
+                    '?x-oss-process=image/format,webp/quality,2'
+                  }
+                  alt="photo"
+                ></img>
+              </LazyLoad>
             );
           })
         );
